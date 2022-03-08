@@ -12,8 +12,8 @@ import {
 } from "@mantine/core";
 import { AiOutlineCheck } from "react-icons/ai";
 
-import Lottie from "react-lottie";
-import animationData from "@public/lotties/train.json";
+// import Lottie from "react-lottie";
+// import animationData from "@public/lotties/train.json";
 
 const useStyles = createStyles((theme) => ({
 	inner: {
@@ -125,7 +125,7 @@ export function Banner() {
 							</Button> */}
 						</Group>
 					</div>
-					<Lottie
+					{/* <Lottie
 						classes={classes.image}
 						options={{
 							loop: true,
@@ -137,7 +137,7 @@ export function Banner() {
 						}}
 						height={400}
 						width={400}
-					/>
+					/> */}
 				</div>
 			</Container>
 		</div>

@@ -42,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-export function Footer({ links }) {
+const Footer = ({ links }) => {
 	const { classes } = useStyles();
 
 	return (
@@ -80,7 +80,7 @@ export function Footer({ links }) {
 			</Group>
 		</Box>
 	);
-}
+};
 
 const LINKS = [
 	{
@@ -100,3 +100,5 @@ const LINKS = [
 		link: "/privacy",
 	},
 ];
+
+export default Footer;

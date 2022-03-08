@@ -89,7 +89,7 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-export function BookNowComponent() {
+const BookNowComponent = () => {
 	const { classes, cx } = useStyles();
 
 	return (
@@ -123,4 +123,6 @@ export function BookNowComponent() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default BookNowComponent;

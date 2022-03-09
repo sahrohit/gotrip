@@ -9,12 +9,10 @@ import {
 	useMantineTheme,
 	Text,
 } from "@mantine/core";
-import { VscArrowSwap, VscArrowRight } from "react-icons/vsc";
 import { AiOutlineUser, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 
 const Passgenger = () => {
-	const { colorScheme } = useMantineTheme();
 	const [opened, setOpened] = useState(false);
 	const [adultPassenger, setAdultPassenger] = useState(1);
 	const [childPassenger, setChildPassenger] = useState(0);
@@ -28,10 +26,10 @@ const Passgenger = () => {
 				placement="start"
 				withCloseButton
 				title="Passengers"
-				transition="pop-top-right"
+				transition="scale-y"
 				target={
 					<Button
-						variant="light"
+						variant="default"
 						color="gray"
 						leftIcon={<AiOutlineUser fontSize={"20px"} />}
 						rightIcon={<BsChevronDown />}

@@ -11,6 +11,7 @@ import {
 	ThemeIcon,
 } from "@mantine/core";
 import { AiOutlineCheck } from "react-icons/ai";
+import TicketMap from "./TicketSearch/TicketMap";
 
 // import Lottie from "react-lottie";
 // import animationData from "@public/lotties/train.json";
@@ -115,29 +116,9 @@ export function Banner() {
 							<Button radius="xl" size="md" className={classes.control}>
 								Book Now
 							</Button>
-							{/* <Button
-								variant="default"
-								radius="xl"
-								size="md"
-								className={classes.control}
-							>
-								Source code
-							</Button> */}
 						</Group>
 					</div>
-					{/* <Lottie
-						classes={classes.image}
-						options={{
-							loop: true,
-							autoplay: true,
-							animationData: animationData,
-							rendererSettings: {
-								preserveAspectRatio: "xMidYMid slice",
-							},
-						}}
-						height={400}
-						width={400}
-					/> */}
+					<TicketMap />
 				</div>
 			</Container>
 		</div>

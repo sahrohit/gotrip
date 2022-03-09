@@ -61,7 +61,7 @@ export function SearchResultCard({
 				<Text>
 					{from_station_name} ({from_station_code})
 					<Text color="dimmed" size="xs">
-						{arrival} | {arrival_date}
+						{arrival} | {dayjs(new Date()).format("MMM D, YYYY")}
 					</Text>
 				</Text>
 				<Divider
@@ -74,7 +74,11 @@ export function SearchResultCard({
 				<Text align="right">
 					{to_station_name} ({to_station_code})
 					<Text color="dimmed" size="xs" align="right">
-						{departure} | {departure_date}
+						{departure} |{" "}
+						{dayjs(new Date())
+							.add(duration_h, "hour")
+							.add(duration_m, "minute")
+							.format("MMM D, YYYY")}
 					</Text>
 				</Text>
 			</Group>

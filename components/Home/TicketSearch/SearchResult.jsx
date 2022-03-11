@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 
 const SearchResult = ({ result }) => {
 	return (
-		<ScrollArea grow style={{ height: "280px" }}>
+		<ScrollArea grow style={{ height: "280px" }} offsetScrollbars>
 			<div>
 				{result.map((item, index) => (
 					<SearchResultCard
@@ -26,7 +26,6 @@ const SearchResult = ({ result }) => {
 						second_ac={item.second_ac}
 						third_ac={item.third_ac}
 						sleeper={item.sleeper}
-						
 					/>
 				))}
 			</div>

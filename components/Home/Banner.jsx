@@ -11,10 +11,6 @@ import {
 	ThemeIcon,
 } from "@mantine/core";
 import { AiOutlineCheck } from "react-icons/ai";
-import TicketMap from "./TicketSearch/TicketMap";
-
-// import Lottie from "react-lottie";
-// import animationData from "@public/lotties/train.json";
 
 const useStyles = createStyles((theme) => ({
 	inner: {
@@ -118,7 +114,6 @@ export function Banner() {
 							</Button>
 						</Group>
 					</div>
-					<TicketMap />
 				</div>
 			</Container>
 		</div>

@@ -11,9 +11,6 @@ import {
 const geoUrl =
 	"https://gist.githubusercontent.com/karmadude/4527959/raw/59492893c2f13ffb909ba48253fa7fa30a640c56/in-states-topo.json";
 
-// const geoUrl =
-// 	"https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json";
-
 const TicketMap = ({ coordinates }) => {
 	const { colorScheme } = useMantineTheme();
 

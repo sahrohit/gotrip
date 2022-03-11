@@ -1,4 +1,4 @@
-import { Navbar } from "@components/Navbar";
+import { Navbar } from "@components/Navbar/index";
 import TicketSearch from "@components/Home/TicketSearch";
 import { Banner } from "@components/Home/Banner";
 import dynamic from "next/dynamic";

@@ -70,52 +70,50 @@ const useStyles = createStyles((theme) => ({
 export function Banner() {
 	const { classes } = useStyles();
 	return (
-		<div>
-			<Container>
-				<div className={classes.inner}>
-					<div className={classes.content}>
-						<Title className={classes.title}>
-							A <span className={classes.highlight}>modern</span> Ticket Booking
-							App
-						</Title>
-						<Text color="dimmed" mt="md">
-							Build with love and passion. We keep customer expericence at the
-							top of our priority. Buy tickets within minutes with hassle free
-							cancellation and refund.
-						</Text>
+		<Container my={120}>
+			<div className={classes.inner}>
+				<div className={classes.content}>
+					<Title className={classes.title}>
+						A <span className={classes.highlight}>modern</span> Ticket Booking
+						App
+					</Title>
+					<Text color="dimmed" mt="md">
+						Build with love and passion. We keep customer expericence at the top
+						of our priority. Buy tickets within minutes with hassle free
+						cancellation and refund.
+					</Text>
 
-						<List
-							mt={30}
-							spacing="sm"
-							size="sm"
-							icon={
-								<ThemeIcon size={20} radius="xl">
-									<AiOutlineCheck size={12} />
-								</ThemeIcon>
-							}
-						>
-							<List.Item>
-								<b>Fast and Reliable</b> – Book tickets within minutes with no
-								hassle.
-							</List.Item>
-							<List.Item>
-								<b>24/7 Customer Service</b> – Our customer service team is
-								always on the call to help you.
-							</List.Item>
-							<List.Item>
-								<b>Plan B</b> – If you ticket is modified from our end, you can
-								reschedule or cancel it at no cost.
-							</List.Item>
-						</List>
+					<List
+						mt={30}
+						spacing="sm"
+						size="sm"
+						icon={
+							<ThemeIcon size={20} radius="xl">
+								<AiOutlineCheck size={12} />
+							</ThemeIcon>
+						}
+					>
+						<List.Item>
+							<b>Fast and Reliable</b> – Book tickets within minutes with no
+							hassle.
+						</List.Item>
+						<List.Item>
+							<b>24/7 Customer Service</b> – Our customer service team is always
+							on the call to help you.
+						</List.Item>
+						<List.Item>
+							<b>Plan B</b> – If you ticket is modified from our end, you can
+							reschedule or cancel it at no cost.
+						</List.Item>
+					</List>
 
-						<Group mt={30}>
-							<Button radius="xl" size="md" className={classes.control}>
-								Book Now
-							</Button>
-						</Group>
-					</div>
+					<Group mt={30}>
+						<Button radius="xl" size="md" className={classes.control}>
+							Book Now
+						</Button>
+					</Group>
 				</div>
-			</Container>
-		</div>
+			</div>
+		</Container>
 	);
 }

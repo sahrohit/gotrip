@@ -1,5 +1,4 @@
 import "@styles/globals.css";
-import { useState, useEffect } from "react";
 import {
 	MantineProvider,
 	NormalizeCSS,
@@ -8,6 +7,7 @@ import {
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useLocalStorageValue } from "@mantine/hooks";
+import { AuthProvider } from "@contexts/AuthContext";
 
 import theme from "@config/theme";
 
@@ -34,7 +34,9 @@ const App = ({ Component, pageProps }) => {
 				<NormalizeCSS />
 				<GlobalStyles />
 				<NotificationsProvider>
-					<Component {...pageProps} />
+					<AuthProvider>
+						<Component {...pageProps} />
+					</AuthProvider>
 				</NotificationsProvider>
 			</MantineProvider>
 		</ColorSchemeProvider>

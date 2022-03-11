@@ -8,8 +8,7 @@ import {
 	Marker,
 } from "react-simple-maps";
 
-const geoUrl =
-	"https://gist.githubusercontent.com/karmadude/4527959/raw/59492893c2f13ffb909ba48253fa7fa30a640c56/in-states-topo.json";
+const geoUrl = "india-state-topo.json";
 
 const TicketMap = ({ coordinates }) => {
 	const { colorScheme } = useMantineTheme();
@@ -36,7 +35,7 @@ const TicketMap = ({ coordinates }) => {
 					))
 				}
 			</Geographies>
-			<Marker coordinates={[76.646013, 12.318946]} fill="#777">
+			{/* <Marker coordinates={[76.646013, 12.318946]} fill="#777">
 				<circle r={2} fill="#F53" />
 				<text
 					fontSize={8}
@@ -46,7 +45,7 @@ const TicketMap = ({ coordinates }) => {
 				>
 					Hello
 				</text>
-			</Marker>
+			</Marker> */}
 
 			<Line
 				coordinates={coordinates}

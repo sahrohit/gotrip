@@ -1,4 +1,4 @@
-
+import {BiHome} from "react-icons/bi"
 
 export const NAVBAR_LINKS = [
 	{

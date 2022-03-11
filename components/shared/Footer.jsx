@@ -1,104 +1,166 @@
 import React from "react";
 import {
 	createStyles,
-	Anchor,
+	Text,
+	Container,
+	ActionIcon,
 	Group,
-	UnstyledButton,
-	Box,
 } from "@mantine/core";
+import { BsTwitter, BsYoutube, BsInstagram } from "react-icons/bs";
 import Logo from "@components/Logo";
-import { BsGithub, BsTwitter } from "react-icons/bs";
+import { FOOTER_LINKS } from "@config/footer";
 import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
-	socialButton: {
-		color:
+	footer: {
+		// marginTop: 120,
+		paddingTop: theme.spacing.xl * 2,
+		paddingBottom: theme.spacing.xl * 2,
+		backgroundColor:
 			theme.colorScheme === "dark"
-				? theme.colors.dark[1]
-				: theme.colors.gray[5],
-		borderRadius: theme.radius.sm,
-		padding: 5,
+				? theme.colors.dark[6]
+				: theme.colors.gray[0],
+		borderTop: `1px solid ${
+			theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
+		}`,
+	},
 
-		"&:hover": {
-			color: theme.colorScheme === "dark" ? theme.white : theme.black,
-			backgroundColor:
-				theme.colorScheme === "dark"
-					? theme.colors.dark[6]
-					: theme.colors.gray[0],
-		},
+	logo: {
+		maxWidth: 200,
 
-		"& > svg": {
-			display: "block",
-			width: 18,
-			height: 18,
+		[theme.fn.smallerThan("sm")]: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
 		},
 	},
 
-	links: {
+	description: {
+		marginTop: 5,
+
 		[theme.fn.smallerThan("sm")]: {
-			marginTop: theme.spacing.lg,
-			marginBottom: theme.spacing.sm,
+			marginTop: theme.spacing.xs,
+			textAlign: "center",
+		},
+	},
+
+	inner: {
+		display: "flex",
+		justifyContent: "space-between",
+
+		[theme.fn.smallerThan("sm")]: {
+			flexDirection: "column",
+			alignItems: "center",
+		},
+	},
+
+	groups: {
+		display: "flex",
+		flexWrap: "wrap",
+
+		[theme.fn.smallerThan("sm")]: {
+			display: "none",
+		},
+	},
+
+	wrapper: {
+		width: 160,
+	},
+
+	link: {
+		display: "block",
+		color:
+			theme.colorScheme === "dark"
+				? theme.colors.dark[1]
+				: theme.colors.gray[6],
+		fontSize: theme.fontSizes.sm,
+		paddingTop: 3,
+		paddingBottom: 3,
+
+		"&:hover": {
+			textDecoration: "underline",
+		},
+	},
+
+	title: {
+		fontSize: theme.fontSizes.lg,
+		fontWeight: 700,
+		fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+		marginBottom: theme.spacing.xs / 2,
+		color: theme.colorScheme === "dark" ? theme.white : theme.black,
+	},
+
+	afterFooter: {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginTop: theme.spacing.xl,
+		paddingTop: theme.spacing.xl,
+		paddingBottom: theme.spacing.xl,
+		borderTop: `1px solid ${
+			theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]
+		}`,
+
+		[theme.fn.smallerThan("sm")]: {
+			flexDirection: "column",
+		},
+	},
+
+	social: {
+		[theme.fn.smallerThan("sm")]: {
+			marginTop: theme.spacing.xs,
 		},
 	},
 }));
 
-const Footer = ({ links }) => {
+const Footer = () => {
 	const { classes } = useStyles();
+	const groups = FOOTER_LINKS.map((group) => {
+		const links = group.links.map((link, index) => (
+			<Link key={index} href={link.link} passHref>
+				<a className={classes.link} component="a">
+					{link.label}
+				</a>
+			</Link>
+		));
 
+		return (
+			<div className={classes.wrapper} key={group.title}>
+				<Text className={classes.title}>{group.title}</Text>
+				{links}
+			</div>
+		);
+	});
 	return (
-		<Box
-			sx={(theme) => ({
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-				padding: `${theme.spacing.md}px ${theme.spacing.md}px`,
+		<footer className={classes.footer}>
+			<Container className={classes.inner}>
+				<div className={classes.logo}>
+					<Logo />
+					<Text size="xs" color="dimmed" className={classes.description}>
+						Book train tickets, easier than ever.
+					</Text>
+				</div>
+				<div className={classes.groups}>{groups}</div>
+			</Container>
+			<Container className={classes.afterFooter}>
+				<Text color="dimmed" size="sm">
+					© 2020 GoTrip. All rights reserved.
+				</Text>
 
-				[theme.fn.smallerThan("sm")]: {
-					flexDirection: "column",
-				},
-			})}
-		>
-			<Logo />
-
-			<Group className={classes.links}>
-				{LINKS.map((link) => (
-					<Link key={link.label} href={link.link} passHref>
-						<Anchor color="dimmed" sx={{ lineHeight: 1 }} size="sm">
-							{link.label}
-						</Anchor>
-					</Link>
-				))}
-			</Group>
-
-			<Group spacing={5}>
-				<UnstyledButton color="dimmed" className={classes.socialButton}>
-					<BsGithub />
-				</UnstyledButton>
-				<UnstyledButton color="dimmed" className={classes.socialButton}>
-					<BsTwitter />
-				</UnstyledButton>
-			</Group>
-		</Box>
+				<Group spacing={0} className={classes.social} position="right" noWrap>
+					<ActionIcon size="lg">
+						<BsTwitter size={18} />
+					</ActionIcon>
+					<ActionIcon size="lg">
+						<BsYoutube size={18} />
+					</ActionIcon>
+					<ActionIcon size="lg">
+						<BsInstagram size={18} />
+					</ActionIcon>
+				</Group>
+			</Container>
+		</footer>
 	);
 };
-
-const LINKS = [
-	{
-		label: "About",
-		link: "/about",
-	},
-	{
-		label: "Blog",
-		link: "/blog",
-	},
-	{
-		label: "Contact",
-		link: "/contact",
-	},
-	{
-		label: "Privacy",
-		link: "/privacy",
-	},
-];
 
 export default Footer;

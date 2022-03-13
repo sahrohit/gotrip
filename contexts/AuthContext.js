@@ -135,9 +135,7 @@ const AuthProvider = ({ children }) => {
 								photoURL: user.photoURL,
 								providerData: user.providerData,
 								uid: user.uid,
-								addresses: [],
-								cartItems: [],
-								cartTotal: 0,
+								bookings: [],
 							}).then(() => {
 								setToStorage(
 									"currentUserState",
@@ -158,7 +156,6 @@ const AuthProvider = ({ children }) => {
 			}
 			setLoading(false);
 		});
-
 		return unsubscribe;
 	}, []);
 

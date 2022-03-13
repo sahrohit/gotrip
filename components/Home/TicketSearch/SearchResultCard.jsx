@@ -34,7 +34,7 @@ export function SearchResultCard({
 	sleeper,
 }) {
 	return (
-		<Paper withBorder padding="md" radius="md" my={10}>
+		<Paper withBorder p="md" radius="md" my={10}>
 			<Group position="apart">
 				<Group align="flex-end" spacing="xs">
 					<Text size="xl" weight={600}>

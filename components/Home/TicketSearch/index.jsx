@@ -98,7 +98,7 @@ const TicketSearch = () => {
 					})}
 				>
 					<Paper
-						padding="xl"
+						p="xl"
 						withBorder
 						sx={(theme) => ({
 							borderRadius: theme.radius.md,

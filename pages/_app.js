@@ -33,7 +33,7 @@ const App = ({ Component, pageProps }) => {
 			>
 				<NormalizeCSS />
 				<GlobalStyles />
-				<NotificationsProvider>
+				<NotificationsProvider autoClose={4000} position="bottom-right">
 					<AuthProvider>
 						<Component {...pageProps} />
 					</AuthProvider>

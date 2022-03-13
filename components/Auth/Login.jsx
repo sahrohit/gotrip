@@ -12,6 +12,10 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useRive, useStateMachineInput } from "rive-react";
 
 import { BiAt } from "react-icons/bi";
+import { MdOutlinePassword } from "react-icons/md";
+import to from "@components/helpers/to";
+import { useNotifications } from "@mantine/notifications";
+import { useAuth } from "@contexts/AuthContext";
 
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Email is required"),
@@ -26,6 +30,8 @@ const useStyles = createStyles((theme) => ({
 
 const Login = () => {
 	const { classes } = useStyles();
+	const notifications = useNotifications();
+	const { logIn, signInWithGoogle, setAuthModalOpened } = useAuth();
 	const form = useForm({
 		initialValues: {
 			email: "",
@@ -76,7 +82,18 @@ const Login = () => {
 			</div>
 			<form
 				onSubmit={form.onSubmit(async (values) => {
-					console.log(values);
+					const [data, error] = await to(
+						logIn(values.email, values.password),
+						notifications,
+						"Logged in Successfully",
+						"Log in failed"
+					);
+					if (data) {
+						setAuthModalOpened(false);
+					}
+					if (error) {
+						trigFail.fire();
+					}
 				})}
 			>
 				<Group
@@ -92,7 +109,7 @@ const Login = () => {
 						className={classes.input}
 						label="Email"
 						icon={<BiAt />}
-						placeholder="Your email"
+						placeholder="Email"
 						error={form.errors.email}
 						{...form.getInputProps("email")}
 						onFocus={() => {
@@ -104,8 +121,8 @@ const Login = () => {
 					<PasswordInput
 						size="md"
 						className={classes.input}
-						icon={<BiAt />}
-						placeholder="Your email"
+						icon={<MdOutlinePassword />}
+						placeholder="Password"
 						label="Password"
 						{...form.getInputProps("password")}
 						onFocus={() => (isHandsUp.value = true)}
@@ -118,7 +135,25 @@ const Login = () => {
 						})}
 						position="apart"
 					>
-						<Button leftIcon={<GoogleIcon />} variant="default" color="gray">
+						<Button
+							leftIcon={<GoogleIcon />}
+							variant="default"
+							color="gray"
+							onClick={async () => {
+								const [data, error] = await to(
+									signInWithGoogle(),
+									notifications,
+									"Logged in Successfully",
+									"Log in failed"
+								);
+								if (data) {
+									setAuthModalOpened(false);
+								}
+								if (error) {
+									trigFail.fire();
+								}
+							}}
+						>
 							Continue with Google
 						</Button>
 						<Button type="submit">Login</Button>

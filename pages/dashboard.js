@@ -5,7 +5,7 @@ import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
 import VerifiedUser from "@components/Routes/VerifiedUser";
 
-const dashboard = () => {
+const Dashboard = () => {
 	const { logOut, currentUser } = useAuth();
 	const notifications = useNotifications();
 
@@ -29,4 +29,4 @@ const dashboard = () => {
 	);
 };
 
-export default dashboard;
+export default Dashboard;

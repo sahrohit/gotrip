@@ -119,6 +119,7 @@ const Login = ({ forgotPasswordModalOpen, setForgotPasswordModalOpen }) => {
 							eyeDirection.value = 30;
 						}}
 						onBlur={() => (isChecking.value = false)}
+						autoComplete="email"
 					/>
 					<PasswordInput
 						size="md"
@@ -129,6 +130,7 @@ const Login = ({ forgotPasswordModalOpen, setForgotPasswordModalOpen }) => {
 						{...form.getInputProps("password")}
 						onFocus={() => (isHandsUp.value = true)}
 						onBlur={() => (isHandsUp.value = false)}
+						autoComplete="current-password"
 					/>
 
 					<Group

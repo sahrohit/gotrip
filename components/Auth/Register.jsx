@@ -163,6 +163,7 @@ const Register = () => {
 								eyeDirection.value = 30;
 							}}
 							onBlur={() => (isChecking.value = false)}
+							autoComplete="given-name"
 						/>
 						<TextInput
 							size="md"
@@ -177,6 +178,7 @@ const Register = () => {
 								eyeDirection.value = 30;
 							}}
 							onBlur={() => (isChecking.value = false)}
+							autoComplete="family-name"
 						/>
 					</Group>
 					<TextInput
@@ -193,6 +195,7 @@ const Register = () => {
 							eyeDirection.value = 30;
 						}}
 						onBlur={() => (isChecking.value = false)}
+						autoComplete="email"
 					/>
 
 					<PasswordInput
@@ -204,6 +207,7 @@ const Register = () => {
 						{...form.getInputProps("password")}
 						onFocus={() => (isHandsUp.value = true)}
 						onBlur={() => (isHandsUp.value = false)}
+						autoComplete="new-password"
 					/>
 
 					<Group

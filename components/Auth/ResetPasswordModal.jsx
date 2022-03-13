@@ -35,7 +35,7 @@ const ResetPasswordModal = ({
 }) => {
 	const { classes } = useStyles();
 	const { resetPassword } = useAuth();
-    const notifications = useNotifications();
+	const notifications = useNotifications();
 	const form = useForm({
 		initialValues: {
 			email: "",
@@ -86,6 +86,7 @@ const ResetPasswordModal = ({
 						className={classes.input}
 						error={form.errors.email}
 						{...form.getInputProps("email")}
+						autoComplete="email"
 					/>
 
 					<Button fullWidth type="submit">

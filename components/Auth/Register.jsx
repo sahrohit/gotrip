@@ -237,7 +237,7 @@ const Register = () => {
 						>
 							Continue with Google
 						</Button>
-						<Button type="submit">Login</Button>
+						<Button type="submit">Sign Up</Button>
 					</Group>
 				</Group>
 			</form>

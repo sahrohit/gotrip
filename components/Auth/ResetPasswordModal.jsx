@@ -68,6 +68,9 @@ const ResetPasswordModal = ({
 						"Email Sent Successfully",
 						"An Error Occured"
 					);
+					if (data) {
+						setForgotPasswordModalOpen(false);
+					}
 				})}
 			>
 				<Group

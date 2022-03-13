@@ -63,8 +63,6 @@ const TicketSearch = () => {
 		label: `${station.name} - ${station.code}`,
 	}));
 
-	console.log("Result", result);
-
 	return (
 		<Box
 			sx={(theme) => ({

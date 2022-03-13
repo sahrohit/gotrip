@@ -10,6 +10,8 @@ import {
 } from "@mantine/core";
 import Link from "next/link";
 import { HiOutlineLogout } from "react-icons/hi";
+import { DrawerUserProfile } from "./DrawerUserProfile";
+import { useAuth } from "@contexts/AuthContext";
 
 const useStyles = createStyles((theme, _params, getRef) => {
 	const icon = getRef("icon");
@@ -75,6 +77,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 	const { classes, cx } = useStyles();
+	const { currentUser } = useAuth();
 
 	return (
 		<Group
@@ -131,7 +134,8 @@ const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 			</Group>
 
 			<Group direction="column" sx={() => ({ width: "100%" })}>
-				
+				{currentUser && <DrawerUserProfile />}
+
 				<Divider sx={() => ({ width: "100%" })} />
 				<Box
 					sx={() => ({ width: "100%" })}

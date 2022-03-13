@@ -5,6 +5,7 @@ import {
 	Group,
 	createStyles,
 	Button,
+	Text,
 } from "@mantine/core";
 import React, { useEffect } from "react";
 import * as Yup from "yup";
@@ -16,6 +17,7 @@ import { MdOutlinePassword } from "react-icons/md";
 import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
 import { useAuth } from "@contexts/AuthContext";
+import Link from "next/link";
 
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Email is required"),
@@ -28,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-const Login = () => {
+const Login = ({ forgotPasswordModalOpen, setForgotPasswordModalOpen }) => {
 	const { classes } = useStyles();
 	const notifications = useNotifications();
 	const { logIn, signInWithGoogle, setAuthModalOpened } = useAuth();
@@ -158,6 +160,19 @@ const Login = () => {
 						</Button>
 						<Button type="submit">Login</Button>
 					</Group>
+					<Text
+						align="center"
+						sx={(theme) => ({
+							width: "100%",
+						})}
+						variant="link"
+						component="a"
+						onClick={() => {
+							setForgotPasswordModalOpen(true);
+						}}
+					>
+						Forgot Password?
+					</Text>
 				</Group>
 			</form>
 		</Container>

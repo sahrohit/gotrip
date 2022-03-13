@@ -3,14 +3,15 @@ import React from "react";
 import { useAuth } from "@contexts/AuthContext";
 import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
+import VerifiedUser from "@components/Routes/VerifiedUser";
 
 const dashboard = () => {
 	const { logOut, currentUser } = useAuth();
 	const notifications = useNotifications();
 
 	return (
-		<>
-			<Text>{JSON.stringify(currentU1ser)}</Text>
+		<VerifiedUser>
+			<Text>{JSON.stringify(currentUser)}</Text>
 			<Button
 				color={"red"}
 				onClick={async () => {
@@ -20,13 +21,11 @@ const dashboard = () => {
 						"Logged Out Successfully",
 						"An Error Occured"
 					);
-					console.log(data);
-					console.log(error);
 				}}
 			>
 				Logout
 			</Button>
-		</>
+		</VerifiedUser>
 	);
 };
 

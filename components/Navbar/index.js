@@ -11,8 +11,9 @@ import {
 	Menu,
 	ActionIcon,
 	Divider,
+	Alert,
 } from "@mantine/core";
-import { useBooleanToggle } from "@mantine/hooks";
+import { useBooleanToggle,useWindowScroll } from "@mantine/hooks";
 import Logo from "@components/Logo";
 import Link from "next/link";
 import DrawerContent from "./DrawerContent";
@@ -98,6 +99,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Navbar() {
 	const router = useRouter();
+	const [scroll, scrollTo] = useWindowScroll();
 	const { classes, cx, theme } = useStyles();
 	const notifications = useNotifications();
 	const menuIconColor =
@@ -120,7 +122,15 @@ export function Navbar() {
 	});
 
 	return (
-		<Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }} mb={20}>
+		<Header
+			height={HEADER_HEIGHT}
+			sx={(theme) => ({
+				borderBottom: 0,
+				position: "sticky",
+				boxShadow: scroll.y > 0 && theme.shadows.sm,
+			})}
+			mb={20}
+		>
 			<Container className={classes.inner} fluid>
 				<Group>
 					<Box

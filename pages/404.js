@@ -95,13 +95,7 @@ const NothingFoundBackground = () => {
 					</Text>
 					<Group position="center">
 						<Link href="/" passHref>
-							<Button
-								component="a"
-								href="/"
-								passHref
-								color="gray"
-								variant="outline"
-							>
+							<Button component="a" color="gray" variant="outline">
 								Take me back to home page
 							</Button>
 						</Link>

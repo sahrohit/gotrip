@@ -6,14 +6,13 @@ import {
 	ActionIcon,
 	Group,
 } from "@mantine/core";
-import { BsTwitter, BsYoutube, BsInstagram } from "react-icons/bs";
+import { BsTwitter, BsYoutube, BsGithub } from "react-icons/bs";
 import Logo from "@components/Logo";
 import { FOOTER_LINKS } from "@config/footer";
 import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
 	footer: {
-		// marginTop: 120,
 		paddingTop: theme.spacing.xl * 2,
 		paddingBottom: theme.spacing.xl * 2,
 		backgroundColor:
@@ -144,18 +143,31 @@ const Footer = () => {
 			</Container>
 			<Container className={classes.afterFooter}>
 				<Text color="dimmed" size="sm">
-					© 2020 GoTrip. All rights reserved.
+					© 2022 GoTrip. All rights reserved.
 				</Text>
 
 				<Group spacing={0} className={classes.social} position="right" noWrap>
 					<ActionIcon size="lg">
 						<BsTwitter size={18} />
 					</ActionIcon>
-					<ActionIcon size="lg">
+					<ActionIcon
+						size="lg"
+						onClick={() => {
+							window.open(
+								"https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=4s",
+								"_blank"
+							);
+						}}
+					>
 						<BsYoutube size={18} />
 					</ActionIcon>
-					<ActionIcon size="lg">
-						<BsInstagram size={18} />
+					<ActionIcon
+						size="lg"
+						onClick={() => {
+							window.open("https://www.github.com/sahrohit/gotrip", "_blank");
+						}}
+					>
+						<BsGithub size={18} />
 					</ActionIcon>
 				</Group>
 			</Container>

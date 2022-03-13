@@ -18,6 +18,7 @@ import { updateDoc, doc, setDoc } from "firebase/firestore";
 import { auth } from "../firebase";
 import { db } from "../firebase";
 import AuthModal from "@components/Auth/AuthModal";
+import VerificationModal from "@components/Auth/VerificationModal";
 
 const AuthContext = React.createContext();
 
@@ -157,7 +158,7 @@ const AuthProvider = ({ children }) => {
 			setLoading(false);
 		});
 		return unsubscribe;
-	}, []);
+	}, [currentUser]);
 
 	const value = {
 		currentUser,
@@ -178,6 +179,7 @@ const AuthProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider value={value}>
 			<AuthModal opened={authModalOpened} setOpened={setAuthModalOpened} />
+			<VerificationModal currentUser={currentUser} />
 			{!loading && children}
 		</AuthContext.Provider>
 	);

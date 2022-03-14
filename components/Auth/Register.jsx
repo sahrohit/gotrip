@@ -160,7 +160,7 @@ const Register = () => {
 							{...form.getInputProps("firstname")}
 							onFocus={() => {
 								isChecking.value = true;
-								eyeDirection.value = 30;
+								eyeDirection.value = 10;
 							}}
 							onBlur={() => (isChecking.value = false)}
 							autoComplete="given-name"
@@ -175,7 +175,7 @@ const Register = () => {
 							{...form.getInputProps("lastname")}
 							onFocus={() => {
 								isChecking.value = true;
-								eyeDirection.value = 30;
+								eyeDirection.value = 60;
 							}}
 							onBlur={() => (isChecking.value = false)}
 							autoComplete="family-name"

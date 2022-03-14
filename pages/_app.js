@@ -10,6 +10,7 @@ import { useLocalStorageValue } from "@mantine/hooks";
 import { AuthProvider } from "@contexts/AuthContext";
 
 import theme from "@config/theme";
+import OpenGraphHead from "@components/shared/OpenGraphHead";
 
 const App = ({ Component, pageProps }) => {
 	const [colorScheme, setColorScheme] = useLocalStorageValue({
@@ -35,6 +36,7 @@ const App = ({ Component, pageProps }) => {
 				<GlobalStyles />
 				<NotificationsProvider autoClose={4000} position="bottom-right">
 					<AuthProvider>
+						<OpenGraphHead />
 						<Component {...pageProps} />
 					</AuthProvider>
 				</NotificationsProvider>

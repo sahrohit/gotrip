@@ -34,15 +34,31 @@ const Recommend = ({ setToStation }) => {
 						radius="sm"
 						sx={(theme) => ({
 							minHeight: 270,
+							filter: `blur(0.2px)`,
 						})}
 					>
 						<Center p="md">
-							<Text color="#fff" size="xl">
-								{item.heading}
+							<Text
+								color="#fff"
+								sx={(theme) => ({
+									fontSize: theme.fontSizes.xl,
+									fontWeight: "semi-bold",
+								})}
+							>
+								{item.text}
 							</Text>
 						</Center>
 						<Center p="md">
-							<Text color="#fff">{item.text}</Text>
+							<Text
+								color="#fff"
+								sx={(theme) => ({
+									fontSize: theme.fontSizes.xl * 1.8,
+									fontWeight: "bold",
+									filter: `blur(0.3px) brightness(1)`,
+								})}
+							>
+								{item.heading}
+							</Text>
 						</Center>
 					</BackgroundImage>
 				</Box>

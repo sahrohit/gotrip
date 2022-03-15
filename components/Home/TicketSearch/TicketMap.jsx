@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useMantineTheme, Tooltip } from "@mantine/core";
 import {
 	ComposableMap,
@@ -7,11 +7,34 @@ import {
 	Line,
 	Marker,
 } from "react-simple-maps";
+import { nanoid } from "nanoid";
+import { COLORS } from "@config/colors";
 
 const geoUrl = "india-state-topo.json";
 
-const TicketMap = ({ coordinates }) => {
+const TicketMap = ({ result }) => {
 	const { colorScheme } = useMantineTheme();
+	const [calcCoordinates, setCalcCoordinates] = useState(
+		result?.map((item) => {
+			if (item.showOnMap) {
+				return item.coordinates?.map((coords) => [coords.lat, coords.long]);
+			}
+		})
+	);
+
+	useEffect(() => {
+		setCalcCoordinates(
+			result?.map((item) => {
+				if (item.showOnMap) {
+					return item.coordinates?.map((coords) => [coords.lat, coords.long]);
+				}
+			})
+		);
+
+		return () => {
+			setCalcCoordinates();
+		};
+	}, [result]);
 
 	return (
 		<ComposableMap
@@ -46,13 +69,23 @@ const TicketMap = ({ coordinates }) => {
 					Hello
 				</text>
 			</Marker> */}
-
-			<Line
-				coordinates={coordinates}
-				stroke="#F53"
-				strokeWidth={1}
-				strokeLinecap="round"
-			/>
+			{calcCoordinates?.map((coordinate, index) => {
+				return (
+					<Line
+						key={nanoid()}
+						coordinates={coordinate}
+						stroke={COLORS[index].color}
+						// "#F53"
+						strokeWidth={1}
+						strokeLinecap="round"
+						style={{
+							hover: {
+								strokeWidth: 2,
+							},
+						}}
+					/>
+				);
+			})}
 		</ComposableMap>
 	);
 };

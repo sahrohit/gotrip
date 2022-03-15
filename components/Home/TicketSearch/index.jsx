@@ -7,6 +7,8 @@ import {
 	Button,
 	Center,
 	Collapse,
+	Text,
+	BackgroundImage,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
@@ -26,6 +28,7 @@ import {
 	IoLocationOutline,
 	IoTrainOutline,
 } from "react-icons/io5";
+import Recommend from "./Recommend";
 
 const TicketSearch = () => {
 	const form = useForm({
@@ -63,6 +66,10 @@ const TicketSearch = () => {
 		label: `${station.name} - ${station.code}`,
 	}));
 
+	const setToStation = (to_station_code) => {
+		form.setValues({ ...form.values, toStation: to_station_code });
+	};
+
 	return (
 		<Box
 			sx={(theme) => ({
@@ -92,7 +99,11 @@ const TicketSearch = () => {
 							where("to_station_code", "==", values.toStation)
 						);
 						const querySnapshot = await getDocs(q);
-						setResult(querySnapshot.docs.map((doc) => doc.data()));
+						setResult(
+							querySnapshot.docs.map((doc) => {
+								return { ...doc.data(), showOnMap: true, id: doc.id };
+							})
+						);
 					})}
 				>
 					<Paper
@@ -145,6 +156,7 @@ const TicketSearch = () => {
 								maxDropdownHeight={280}
 								data={stationData}
 								{...form.getInputProps("fromStation")}
+								limit={20}
 							/>
 							<Select
 								size="lg"
@@ -155,6 +167,7 @@ const TicketSearch = () => {
 								maxDropdownHeight={280}
 								data={stationData}
 								{...form.getInputProps("toStation")}
+								limit={20}
 							/>
 
 							{form.values.onewayOrRound === "one-way" && (
@@ -185,19 +198,17 @@ const TicketSearch = () => {
 							)}
 						</Group>
 						<Center m={14}>
-							<Button
-								leftIcon={<IoTrainOutline fontSize={24} />}
-								type="submit"
-								// onClick={() => setResultOpened((o) => !o)}
-							>
+							<Button leftIcon={<IoTrainOutline fontSize={24} />} type="submit">
 								Search
 							</Button>
 						</Center>
 
 						<Collapse in={result}>
-							{result && <SearchResult result={result} />}
+							{result && <SearchResult result={result} setResult={setResult} />}
 						</Collapse>
 					</Paper>
+
+					{!result && <Recommend setToStation={setToStation} />}
 				</form>
 			</Box>
 			<Box
@@ -209,12 +220,14 @@ const TicketSearch = () => {
 					},
 				})}
 			>
-				<TicketMap
+				{/* <TicketMap
 					coordinates={result?.[0]?.coordinates?.map((coords) => [
 						coords.lat,
 						coords.long,
 					])}
-				/>
+				/> */}
+
+				<TicketMap result={result} />
 			</Box>
 		</Box>
 	);

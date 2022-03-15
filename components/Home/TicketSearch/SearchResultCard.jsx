@@ -1,21 +1,21 @@
 import React from "react";
 import {
-	createStyles,
 	Text,
 	Group,
 	Paper,
 	Divider,
-	ActionIcon,
 	Chips,
 	Chip,
 	Center,
 	Button,
+	SegmentedControl,
 } from "@mantine/core";
 
-import { MdOutlineAnalytics } from "react-icons/md";
 import dayjs from "dayjs";
+import { COLORS } from "@config/colors";
 
 export function SearchResultCard({
+	id,
 	name,
 	from_station_name,
 	from_station_code,
@@ -32,10 +32,14 @@ export function SearchResultCard({
 	second_ac,
 	third_ac,
 	sleeper,
+	showOnMap,
+	distance,
+	setResult,
+	color,
 }) {
 	return (
 		<Paper withBorder p="md" radius="md" my={10}>
-			<Group position="apart">
+			<Group position="apart" noWrap>
 				<Group align="flex-end" spacing="xs">
 					<Text size="xl" weight={600}>
 						{name}
@@ -44,19 +48,29 @@ export function SearchResultCard({
 						({number})
 					</Text>
 				</Group>
-				<ActionIcon
-					onClick={() => {
-						//Update the Map
+				<SegmentedControl
+					orientation="vertical"
+					value={showOnMap ? "on" : "off"}
+					color={color}
+					radius="md"
+					size="xs"
+					data={[
+						{ label: "Show", value: "on" },
+						{ label: "Not Show", value: "off" },
+					]}
+					onChange={(val) => {
+						setResult((prev) => {
+							const foundIndex = prev.findIndex((item) => item.id == id);
+							const updatedIndex = {
+								...prev[foundIndex],
+								showOnMap: val === "on" ? true : false,
+							};
+							const resultWithoutIndex = prev.filter((item) => item.id != id);
+							return [...resultWithoutIndex, updatedIndex];
+						});
 					}}
-				>
-					<MdOutlineAnalytics size={20} />
-				</ActionIcon>
+				/>
 			</Group>
-
-			{/* <Text color="dimmed" size="sm">
-				Page views compared to previous month
-			</Text> */}
-
 			<Group position="apart" align="center" noWrap>
 				<Text>
 					{from_station_name} ({from_station_code})
@@ -68,7 +82,21 @@ export function SearchResultCard({
 					sx={(theme) => ({
 						flexGrow: 1,
 					})}
-					label={`${duration_h}h ${duration_m}m`}
+					label={
+						<Group direction="column" spacing={0}>
+							<Center>
+								<Text
+									align="center"
+									size="xs"
+								>{`${duration_h}h ${duration_m}m`}</Text>
+							</Center>
+							<Center>
+								<Text align="center" size="xs">
+									{`${distance} km`}
+								</Text>
+							</Center>
+						</Group>
+					}
 					labelPosition="center"
 				/>
 				<Text align="right">
@@ -103,7 +131,9 @@ export function SearchResultCard({
 				</Chip>
 			</Chips>
 
-			<Button fullWidth>Book Now</Button>
+			<Button color={color} fullWidth>
+				Book Now
+			</Button>
 		</Paper>
 	);
 }

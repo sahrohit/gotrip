@@ -60,6 +60,7 @@ const TicketSearch = () => {
 	);
 
 	const [result, setResult] = useState();
+	const [loading, setLoading] = useState();
 
 	const stationData = stations.map((station) => ({
 		value: `${station.code}`,
@@ -93,6 +94,7 @@ const TicketSearch = () => {
 			>
 				<form
 					onSubmit={form.onSubmit(async (values) => {
+						setLoading(true);
 						const q = query(
 							collection(db, "trains"),
 							where("from_station_code", "==", values.fromStation),
@@ -104,6 +106,7 @@ const TicketSearch = () => {
 								return { ...doc.data(), showOnMap: true, id: doc.id };
 							})
 						);
+						setLoading(false);
 					})}
 				>
 					<Paper
@@ -204,7 +207,13 @@ const TicketSearch = () => {
 						</Center>
 
 						<Collapse in={result}>
-							{result && <SearchResult result={result} setResult={setResult} />}
+							{result && (
+								<SearchResult
+									result={result}
+									setResult={setResult}
+									loading={loading}
+								/>
+							)}
 						</Collapse>
 					</Paper>
 

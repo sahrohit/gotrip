@@ -1,10 +1,17 @@
 import React from "react";
-import { ScrollArea, Group, Text, Divider, Center } from "@mantine/core";
+import {
+	ScrollArea,
+	Group,
+	Text,
+	Divider,
+	Center,
+	Loader,
+} from "@mantine/core";
 import { SearchResultCard } from "./SearchResultCard";
 import { nanoid } from "nanoid";
 import { COLORS } from "@config/colors";
 
-const SearchResult = ({ result, setResult }) => {
+const SearchResult = ({ result, setResult, loading }) => {
 	return (
 		<>
 			<Divider
@@ -50,6 +57,13 @@ const SearchResult = ({ result, setResult }) => {
 							))}
 					</div>
 				</ScrollArea>
+			) : loading ? (
+				<Center
+					sx={(theme) => ({ height: "100px" })}
+					component={Text}
+					color="dimmed"
+				>
+				<Loader /></Center>
 			) : (
 				<Center
 					sx={(theme) => ({ height: "100px" })}

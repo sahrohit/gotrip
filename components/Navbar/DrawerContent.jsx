@@ -12,6 +12,10 @@ import Link from "next/link";
 import { HiOutlineLogout } from "react-icons/hi";
 import { DrawerUserProfile } from "./DrawerUserProfile";
 import { useAuth } from "@contexts/AuthContext";
+import Logo from "@components/Logo";
+import { useRouter } from "next/router";
+import ToggleTheme from "@components/shared/ToggleTheme";
+import theme from "@config/theme";
 
 const useStyles = createStyles((theme, _params, getRef) => {
 	const icon = getRef("icon");
@@ -78,6 +82,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 	const { classes, cx } = useStyles();
 	const { currentUser } = useAuth();
+	const router = useRouter();
 
 	return (
 		<Group
@@ -101,15 +106,7 @@ const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 						width: "100%",
 					})}
 				>
-					<Text
-						sx={(theme) => ({
-							fontSize: "24px",
-							fontWeight: "semi-bold",
-							color: theme.colorScheme === "dark" ? theme.white : theme.black,
-						})}
-					>
-						Navigation
-					</Text>
+					<Logo />
 					<Burger
 						opened={burgerOpened}
 						onClick={() => toggleOpened()}
@@ -122,7 +119,7 @@ const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 						<Link key={item.label} href={item.link} passHref>
 							<Box
 								className={cx(classes.link, {
-									[classes.linkActive]: item.link === "/",
+									[classes.linkActive]: item.link === router.pathname,
 								})}
 							>
 								<item.icon className={classes.linkIcon} />
@@ -133,16 +130,14 @@ const DrawerContent = ({ LINKS, toggleOpened, burgerOpened }) => {
 				</Navbar.Section>
 			</Group>
 
-			<Group direction="column" sx={() => ({ width: "100%" })}>
+			<Group direction="column" sx={() => ({ width: "100%" })} spacing={2}>
 				{currentUser && <DrawerUserProfile />}
-
 				<Divider sx={() => ({ width: "100%" })} />
 				<Box
-					sx={() => ({ width: "100%" })}
+					sx={() => ({
+						width: "100%",
+					})}
 					className={cx(classes.link)}
-					onClick={(event) => {
-						event.preventDefault();
-					}}
 				>
 					<HiOutlineLogout className={classes.linkIcon} />
 					<Text component="span">Logout</Text>

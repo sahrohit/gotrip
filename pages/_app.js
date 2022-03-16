@@ -5,6 +5,7 @@ import {
 	NormalizeCSS,
 	ColorSchemeProvider,
 	GlobalStyles,
+	Affix,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useLocalStorageValue } from "@mantine/hooks";
@@ -12,9 +13,11 @@ import { AuthProvider } from "@contexts/AuthContext";
 import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
 
 import theme from "@config/theme";
 import OpenGraphHead from "@components/shared/OpenGraphHead";
+import ToggleTheme from "@components/shared/ToggleTheme";
 
 const App = ({ Component, pageProps }) => {
 	const router = useRouter();
@@ -38,29 +41,30 @@ const App = ({ Component, pageProps }) => {
 	}, [router.events]);
 
 	return (
-		<ColorSchemeProvider
-			colorScheme={colorScheme}
-			toggleColorScheme={toggleColorScheme}
-		>
-			<MantineProvider
-				theme={{
-					colorScheme,
-					...theme,
-				}}
+		<AnimatePresence exitBeforeEnter initial={false}>
+			<ColorSchemeProvider
+				colorScheme={colorScheme}
+				toggleColorScheme={toggleColorScheme}
 			>
-				<NormalizeCSS />
-				<GlobalStyles />
-				<NotificationsProvider autoClose={4000} position="bottom-right">
-					<AuthProvider>
-						<Script
-							strategy="afterInteractive"
-							src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-						/>
-						<Script
-							id="gtag-init"
-							strategy="afterInteractive"
-							dangerouslySetInnerHTML={{
-								__html: `
+				<MantineProvider
+					theme={{
+						colorScheme,
+						...theme,
+					}}
+				>
+					<NormalizeCSS />
+					<GlobalStyles />
+					<NotificationsProvider autoClose={4000} position="bottom-right">
+						<AuthProvider>
+							<Script
+								strategy="afterInteractive"
+								src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+							/>
+							<Script
+								id="gtag-init"
+								strategy="afterInteractive"
+								dangerouslySetInnerHTML={{
+									__html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -68,14 +72,25 @@ const App = ({ Component, pageProps }) => {
               page_path: window.location.pathname,
             });
           `,
-							}}
-						/>
-						<OpenGraphHead />
-						<Component {...pageProps} />
-					</AuthProvider>
-				</NotificationsProvider>
-			</MantineProvider>
-		</ColorSchemeProvider>
+								}}
+							/>
+							<OpenGraphHead />
+							<Affix
+								sx={(theme) => ({
+									[theme.fn.smallerThan(500)]: {
+										display: "none",
+									},
+								})}
+								position={{ bottom: 25, right: 25 }}
+							>
+								<ToggleTheme />
+							</Affix>
+							<Component {...pageProps} />
+						</AuthProvider>
+					</NotificationsProvider>
+				</MantineProvider>
+			</ColorSchemeProvider>
+		</AnimatePresence>
 	);
 };
 

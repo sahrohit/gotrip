@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	Group,
 	Select,
@@ -67,9 +67,12 @@ const TicketSearch = () => {
 		label: `${station.name} - ${station.code}`,
 	}));
 
-	const setToStation = (to_station_code) => {
-		form.setValues({ ...form.values, toStation: to_station_code });
-	};
+	const setToStation = useCallback(
+		(to_station_code) => {
+			form.setValues({ ...form.values, toStation: to_station_code });
+		},
+		[form]
+	);
 
 	return (
 		<Box
@@ -217,7 +220,11 @@ const TicketSearch = () => {
 						</Collapse>
 					</Paper>
 
-					{!result && <Recommend setToStation={setToStation} />}
+					{!result && (
+						<Recommend
+						// setToStation={setToStation}
+						/>
+					)}
 				</form>
 			</Box>
 			<Box
@@ -229,13 +236,6 @@ const TicketSearch = () => {
 					},
 				})}
 			>
-				{/* <TicketMap
-					coordinates={result?.[0]?.coordinates?.map((coords) => [
-						coords.lat,
-						coords.long,
-					])}
-				/> */}
-
 				<TicketMap result={result} />
 			</Box>
 		</Box>

@@ -13,23 +13,10 @@ const FrequentlyAsked = dynamic(() =>
 );
 const Footer = dynamic(() => import("@components/shared/Footer"));
 
-export default function Home() {
+export default function About() {
 	return (
 		<AnimatePresence>
 			<Navbar />
-			<TicketSearch />
-			<FadeInWhenVisible>
-				<Banner />
-			</FadeInWhenVisible>
-			<FadeInWhenVisible>
-				<BookNowComponent />
-			</FadeInWhenVisible>
-			<FadeInWhenVisible>
-				<FrequentlyAsked />
-			</FadeInWhenVisible>
-			<FadeInWhenVisible>
-				<Footer />
-			</FadeInWhenVisible>
 		</AnimatePresence>
 	);
 }

@@ -24,10 +24,10 @@ const Dashboard = () => {
 				<Box
 					m="md"
 					sx={(theme) => ({
-						width: "30%",
+						width: "25%",
 					})}
 				>
-					<ProfilePanel currentUser={currentUser} />
+					<ProfilePanel />
 				</Box>
 				<ScrollArea style={{ height: "100vh" }}>
 					<Bookings />

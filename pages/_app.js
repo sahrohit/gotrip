@@ -14,7 +14,7 @@ import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
-
+import { ModalsProvider } from "@mantine/modals";
 import theme from "@config/theme";
 import OpenGraphHead from "@components/shared/OpenGraphHead";
 import ToggleTheme from "@components/shared/ToggleTheme";
@@ -54,17 +54,18 @@ const App = ({ Component, pageProps }) => {
 				>
 					<NormalizeCSS />
 					<GlobalStyles />
-					<NotificationsProvider autoClose={4000} position="bottom-right">
-						<AuthProvider>
-							<Script
-								strategy="afterInteractive"
-								src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-							/>
-							<Script
-								id="gtag-init"
-								strategy="afterInteractive"
-								dangerouslySetInnerHTML={{
-									__html: `
+					<ModalsProvider>
+						<NotificationsProvider autoClose={4000} position="bottom-right">
+							<AuthProvider>
+								<Script
+									strategy="afterInteractive"
+									src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+								/>
+								<Script
+									id="gtag-init"
+									strategy="afterInteractive"
+									dangerouslySetInnerHTML={{
+										__html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -72,22 +73,23 @@ const App = ({ Component, pageProps }) => {
               page_path: window.location.pathname,
             });
           `,
-								}}
-							/>
-							<OpenGraphHead />
-							<Affix
-								sx={(theme) => ({
-									[theme.fn.smallerThan(500)]: {
-										display: "none",
-									},
-								})}
-								position={{ bottom: 25, right: 25 }}
-							>
-								<ToggleTheme />
-							</Affix>
-							<Component {...pageProps} />
-						</AuthProvider>
-					</NotificationsProvider>
+									}}
+								/>
+								<OpenGraphHead />
+								<Affix
+									sx={(theme) => ({
+										[theme.fn.smallerThan(500)]: {
+											display: "none",
+										},
+									})}
+									position={{ bottom: 25, right: 25 }}
+								>
+									<ToggleTheme />
+								</Affix>
+								<Component {...pageProps} />
+							</AuthProvider>
+						</NotificationsProvider>
+					</ModalsProvider>
 				</MantineProvider>
 			</ColorSchemeProvider>
 		</AnimatePresence>

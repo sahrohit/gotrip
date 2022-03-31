@@ -23,17 +23,17 @@ const Dashboard = () => {
 				<Box
 					m="md"
 					sx={(theme) => ({
-						width: "30%",
+						width: "25%",
 					})}
 				>
-					<ProfilePanel currentUser={currentUser} />
+					<ProfilePanel />
 				</Box>
 				<Box
 					sx={(theme) => ({
 						width: "70%",
 					})}
 				>
-					<Text noWrap="false">{JSON.stringify(currentUser)}</Text>
+					<Text noWrap="false">{"JSON.stringify(currentUser)"}</Text>
 					<Button
 						color={"red"}
 						onClick={async () => {

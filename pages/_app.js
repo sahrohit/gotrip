@@ -1,12 +1,6 @@
 import "@styles/globals.css";
 import { useEffect } from "react";
-import {
-	MantineProvider,
-	NormalizeCSS,
-	ColorSchemeProvider,
-	GlobalStyles,
-	Affix,
-} from "@mantine/core";
+import { MantineProvider, ColorSchemeProvider, Affix } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useLocalStorageValue } from "@mantine/hooks";
 import { AuthProvider } from "@contexts/AuthContext";
@@ -47,13 +41,13 @@ const App = ({ Component, pageProps }) => {
 				toggleColorScheme={toggleColorScheme}
 			>
 				<MantineProvider
+					withGlobalStyles
+					withNormalizeCSS
 					theme={{
 						colorScheme,
 						...theme,
 					}}
 				>
-					<NormalizeCSS />
-					<GlobalStyles />
 					<ModalsProvider>
 						<NotificationsProvider autoClose={4000} position="bottom-right">
 							<AuthProvider>

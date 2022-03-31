@@ -1,14 +1,14 @@
-import { Button, Text, Group, Box } from "@mantine/core";
+import { Button, Text, Group, Box, ScrollArea } from "@mantine/core";
 import React from "react";
 import { useAuth } from "@contexts/AuthContext";
 import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
 import VerifiedUser from "@components/Routes/VerifiedUser";
 import ProfilePanel from "@components/Dashboard/ProfilePanel";
+import Bookings from "@components/Dashboard/Bookings";
 
 const Dashboard = () => {
-	const { logOut, currentUser } = useAuth();
-	const notifications = useNotifications();
+	const { currentUser } = useAuth();
 
 	return (
 		<VerifiedUser>
@@ -18,6 +18,7 @@ const Dashboard = () => {
 				sx={(theme) => ({
 					width: "100%",
 					height: "100vh",
+					justifyContent: "space-around",
 				})}
 			>
 				<Box
@@ -28,26 +29,9 @@ const Dashboard = () => {
 				>
 					<ProfilePanel currentUser={currentUser} />
 				</Box>
-				<Box
-					sx={(theme) => ({
-						width: "70%",
-					})}
-				>
-					<Text noWrap="false">{JSON.stringify(currentUser)}</Text>
-					<Button
-						color={"red"}
-						onClick={async () => {
-							const [data, error] = await to(
-								logOut(),
-								notifications,
-								"Logged Out Successfully",
-								"An Error Occured"
-							);
-						}}
-					>
-						Logout
-					</Button>
-				</Box>
+				<ScrollArea style={{ height: "100vh" }}>
+					<Bookings />
+				</ScrollArea>
 			</Group>
 		</VerifiedUser>
 	);

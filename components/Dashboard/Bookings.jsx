@@ -1,87 +1,72 @@
 import React from "react";
 import {
 	Avatar,
-	Badge,
 	Table,
 	Group,
 	Text,
 	ActionIcon,
-	Anchor,
+	Menu,
 	ScrollArea,
-	useMantineTheme,
+	Center,
 } from "@mantine/core";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 
-const jobColors = {
-	engineer: "blue",
-	manager: "cyan",
-	designer: "pink",
-};
-
-const Bookings = () => {
-	const theme = useMantineTheme();
+export default function Bookings() {
 	const rows = data.map((item) => (
-		<>
-			<tr key={item.name}>
-				<td>
-					<Group spacing="sm">
-						<Avatar size={30} src={item.avatar} radius={30} />
+		<tr key={item.name}>
+			<td>
+				<Group spacing="sm">
+					<Avatar size={40} src={item.avatar} radius={40} />
+					<div>
 						<Text size="sm" weight={500}>
 							{item.name}
 						</Text>
-					</Group>
-				</td>
-
-				<td>
-					<Badge
-						color={jobColors[item.job.toLowerCase()]}
-						variant={theme.colorScheme === "dark" ? "light" : "outline"}
-					>
-						{item.job}
-					</Badge>
-				</td>
-				<td>{item.email}</td>
-				<td>
-					<Text size="sm" color="gray">
-						{item.phone}
-					</Text>
-				</td>
-				<td>
-					<Group spacing={0} position="right">
-						<ActionIcon>
-							<BsPencilSquare size={16} />
-						</ActionIcon>
-						<ActionIcon color="red">
-							<BsTrash size={16} />
-						</ActionIcon>
-					</Group>
-				</td>
-			</tr>
-		</>
+						<Text color="dimmed" size="xs">
+							{item.job}
+						</Text>
+					</div>
+				</Group>
+			</td>
+			<td>
+				<Text size="sm">{item.email}</Text>
+				<Text size="xs" color="dimmed">
+					Email
+				</Text>
+			</td>
+			<td>
+				<Text size="sm">${item.rate.toFixed(1)} / hr</Text>
+				<Text size="xs" color="dimmed">
+					Rate
+				</Text>
+			</td>
+			<td>
+				<Group spacing={0} position="right">
+					<ActionIcon>
+						<BsPencilSquare size={16} />
+					</ActionIcon>
+					<Menu transition="pop" withArrow placement="end">
+						<Menu.Item icon={<BsTrash size={16} />}>Send message</Menu.Item>
+						<Menu.Item icon={<BsTrash size={16} />}>Add note</Menu.Item>
+						<Menu.Item icon={<BsTrash size={16} />}>Analytics</Menu.Item>
+						<Menu.Item icon={<BsTrash size={16} />} color="red">
+							Terminate contract
+						</Menu.Item>
+					</Menu>
+				</Group>
+			</td>
+		</tr>
 	));
 
 	return (
-		<ScrollArea>
-			<Table
-				sx={(theme) => ({ minWidth: 800, width: "100%" })}
-				verticalSpacing="sm"
-			>
-				<thead>
-					<tr>
-						<th>PNR</th>
-						<th>Job title</th>
-						<th>Email</th>
-						<th>Phone</th>
-						<th />
-					</tr>
-				</thead>
-				<tbody>{rows}</tbody>
-			</Table>
-		</ScrollArea>
+		<>
+			<ScrollArea offsetScrollbars={true}>
+				<Table sx={{ minWidth: 800 }} verticalSpacing="md">
+					<tbody>{rows}</tbody>
+				</Table>
+			</ScrollArea>
+		</>
 	);
-};
-
-export default Bookings;
+}
 
 const data = [
 	{
@@ -90,7 +75,7 @@ const data = [
 		name: "Robert Wolfkisser",
 		job: "Engineer",
 		email: "rob_wolf@gmail.com",
-		phone: "+44 (452) 886 09 12",
+		rate: 22,
 	},
 	{
 		avatar:
@@ -98,7 +83,7 @@ const data = [
 		name: "Jill Jailbreaker",
 		job: "Engineer",
 		email: "jj@breaker.com",
-		phone: "+44 (934) 777 12 76",
+		rate: 45,
 	},
 	{
 		avatar:
@@ -106,7 +91,7 @@ const data = [
 		name: "Henry Silkeater",
 		job: "Designer",
 		email: "henry@silkeater.io",
-		phone: "+44 (901) 384 88 34",
+		rate: 76,
 	},
 	{
 		avatar:
@@ -114,7 +99,7 @@ const data = [
 		name: "Bill Horsefighter",
 		job: "Designer",
 		email: "bhorsefighter@gmail.com",
-		phone: "+44 (667) 341 45 22",
+		rate: 15,
 	},
 	{
 		avatar:
@@ -122,7 +107,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -130,7 +115,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -138,7 +123,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -146,7 +131,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -154,7 +139,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -162,7 +147,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -170,7 +155,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -178,7 +163,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -186,7 +171,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -194,7 +179,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -202,7 +187,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -210,7 +195,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -218,7 +203,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -226,7 +211,7 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
 	},
 	{
 		avatar:
@@ -234,6 +219,46 @@ const data = [
 		name: "Jeremy Footviewer",
 		job: "Manager",
 		email: "jeremy@foot.dev",
-		phone: "+44 (881) 245 65 65",
+		rate: 98,
+	},
+	{
+		avatar:
+			"https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
+		name: "Jeremy Footviewer",
+		job: "Manager",
+		email: "jeremy@foot.dev",
+		rate: 98,
+	},
+	{
+		avatar:
+			"https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
+		name: "Jeremy Footviewer",
+		job: "Manager",
+		email: "jeremy@foot.dev",
+		rate: 98,
+	},
+	{
+		avatar:
+			"https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
+		name: "Jeremy Footviewer",
+		job: "Manager",
+		email: "jeremy@foot.dev",
+		rate: 98,
+	},
+	{
+		avatar:
+			"https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
+		name: "Jeremy Footviewer",
+		job: "Manager",
+		email: "jeremy@foot.dev",
+		rate: 98,
+	},
+	{
+		avatar:
+			"https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
+		name: "Jeremy Footviewer",
+		job: "Manager",
+		email: "jeremy@foot.dev",
+		rate: 98,
 	},
 ];

@@ -10,11 +10,19 @@ import {
 	Button,
 	SegmentedControl,
 } from "@mantine/core";
-
+import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import { COLORS } from "@config/colors";
 
 export function SearchResultCard({
+	item,
+	fromStation,
+	toStation,
+	startDate,
+	trainClass,
+	onewayOrRound,
+	adultPassenger,
+	childPassenger,
 	id,
 	name,
 	from_station_name,
@@ -37,6 +45,8 @@ export function SearchResultCard({
 	setResult,
 	color,
 }) {
+	const router = useRouter();
+
 	return (
 		<Paper withBorder p="md" radius="md" my={10}>
 			<Group position="apart" noWrap>
@@ -131,7 +141,25 @@ export function SearchResultCard({
 				</Chip>
 			</Chips>
 
-			<Button color={color} fullWidth>
+			<Button
+				color={color}
+				fullWidth
+				onClick={() => {
+					router.push({
+						pathname: "/booknow",
+						query: {
+							trainId: id,
+							fromStation,
+							toStation,
+							startDate,
+							trainClass,
+							onewayOrRound,
+							adultPassenger,
+							childPassenger,
+						},
+					});
+				}}
+			>
 				Book Now
 			</Button>
 		</Paper>

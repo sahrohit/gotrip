@@ -10,8 +10,20 @@ import {
 import { SearchResultCard } from "./SearchResultCard";
 import { nanoid } from "nanoid";
 import { COLORS } from "@config/colors";
+import { useRouter } from "next/router";
 
-const SearchResult = ({ result, setResult, loading }) => {
+const SearchResult = ({
+	fromStation,
+	toStation,
+	startDate,
+	trainClass,
+	onewayOrRound,
+	adultPassenger,
+	childPassenger,
+	result,
+	setResult,
+	loading,
+}) => {
 	return (
 		<>
 			<Divider
@@ -31,6 +43,14 @@ const SearchResult = ({ result, setResult, loading }) => {
 							)
 							.map((item, index) => (
 								<SearchResultCard
+									item={item}
+									fromStation={fromStation}
+									toStation={toStation}
+									startDate={startDate}
+									trainClass={trainClass}
+									onewayOrRound={onewayOrRound}
+									adultPassenger={adultPassenger}
+									childPassenger={childPassenger}
 									id={item.id}
 									key={item.id}
 									name={item.name}
@@ -63,7 +83,8 @@ const SearchResult = ({ result, setResult, loading }) => {
 					component={Text}
 					color="dimmed"
 				>
-				<Loader /></Center>
+					<Loader />
+				</Center>
 			) : (
 				<Center
 					sx={(theme) => ({ height: "100px" })}

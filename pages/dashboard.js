@@ -1,15 +1,10 @@
-import { Button, Text, Group, Box, ScrollArea } from "@mantine/core";
 import React from "react";
-import { useAuth } from "@contexts/AuthContext";
-import to from "@components/helpers/to";
-import { useNotifications } from "@mantine/notifications";
+import { Group, Box, ScrollArea, Center, Text } from "@mantine/core";
 import VerifiedUser from "@components/Routes/VerifiedUser";
 import ProfilePanel from "@components/Dashboard/ProfilePanel";
 import Bookings from "@components/Dashboard/Bookings";
 
 const Dashboard = () => {
-	const { currentUser } = useAuth();
-
 	return (
 		<VerifiedUser>
 			<Group
@@ -29,9 +24,20 @@ const Dashboard = () => {
 				>
 					<ProfilePanel />
 				</Box>
-				<ScrollArea style={{ height: "100vh" }}>
-					<Bookings />
-				</ScrollArea>
+				<Box>
+					<Center my={20}>
+						<Text
+							sx={(theme) => ({
+								fontSize: 2 * theme.fontSizes.xl,
+							})}
+						>
+							Bookings
+						</Text>
+					</Center>
+					<ScrollArea style={{ height: "80vh" }}>
+						<Bookings />
+					</ScrollArea>
+				</Box>
 			</Group>
 		</VerifiedUser>
 	);

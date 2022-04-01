@@ -7,9 +7,11 @@ import { useAuth } from "@contexts/AuthContext";
 import { BsCheck2, BsX } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { BiUnlink } from "react-icons/bi";
+import { useRouter } from "next/router";
 
 const ProfilePanel = () => {
 	const modals = useModals();
+	const router = useRouter();
 	const { currentUser, providers, linkGoogleAccount, unLinkGoogleAccount } =
 		useAuth();
 

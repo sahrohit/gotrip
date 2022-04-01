@@ -36,7 +36,7 @@ const TicketSearch = () => {
 			onewayOrRound: "one-way",
 			adultPassenger: 1,
 			childPassenger: 0,
-			class: "sl",
+			trainClass: "sl",
 			fromStation: "",
 			toStation: "",
 			startDate: new Date(),
@@ -47,7 +47,7 @@ const TicketSearch = () => {
 			onewayOrRound: (value) => value === "one-way" || value === "two-way",
 			adultPassenger: (value) => value > 0,
 			childPassenger: (value) => value >= 0,
-			class: (value) =>
+			trainClass: (value) =>
 				value === "sl" || value === "3a" || value === "2a" || value === "1a",
 			fromStation: (value) => value !== "",
 			toStation: (value) => value !== "",
@@ -144,7 +144,7 @@ const TicketSearch = () => {
 									{ value: "1a", label: "AC First Class (1A)" },
 								]}
 								defaultValue="sl"
-								{...form.getInputProps("class")}
+								{...form.getInputProps("trainClass")}
 							/>
 						</Group>
 						<Group
@@ -212,6 +212,13 @@ const TicketSearch = () => {
 						<Collapse in={result}>
 							{result && (
 								<SearchResult
+									fromStation={form.values.fromStation}
+									toStation={form.values.toStation}
+									startDate={form.values.startDate}
+									trainClass={form.values.trainClass}
+									onewayOrRound={form.values.onewayOrRound}
+									adultPassenger={form.values.adultPassenger}
+									childPassenger={form.values.childPassenger}
 									result={result}
 									setResult={setResult}
 									loading={loading}

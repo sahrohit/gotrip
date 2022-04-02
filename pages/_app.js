@@ -24,15 +24,15 @@ const App = ({ Component, pageProps }) => {
 	const toggleColorScheme = (value) =>
 		setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
-	useEffect(() => {
-		const handleRouteChange = (url) => {
-			gtag.pageview(url);
-		};
-		router.events.on("routeChangeComplete", handleRouteChange);
-		return () => {
-			router.events.off("routeChangeComplete", handleRouteChange);
-		};
-	}, [router.events]);
+	// useEffect(() => {
+	// 	const handleRouteChange = (url) => {
+	// 		gtag.pageview(url);
+	// 	};
+	// 	router.events.on("routeChangeComplete", handleRouteChange);
+	// 	return () => {
+	// 		router.events.off("routeChangeComplete", handleRouteChange);
+	// 	};
+	// }, [router.events]);
 
 	return (
 		<AnimatePresence exitBeforeEnter initial={false}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Text,
 	Group,
@@ -12,7 +12,11 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
+
+import { BsX } from "react-icons/bs";
+
 import { COLORS } from "@config/colors";
+import { useNotifications } from "@mantine/notifications";
 
 export function SearchResultCard({
 	item,
@@ -45,6 +49,9 @@ export function SearchResultCard({
 	setResult,
 	color,
 }) {
+	const notifications = useNotifications();
+
+	const [selectedTrainClass, setSeletcedTrainClass] = useState();
 	const router = useRouter();
 
 	return (
@@ -126,6 +133,7 @@ export function SearchResultCard({
 				sx={(theme) => ({
 					margin: theme.spacing.md,
 				})}
+				onChange={(val) => setSeletcedTrainClass(val)}
 			>
 				<Chip value="first_ac" disabled={first_ac === 0}>
 					First Class
@@ -145,22 +153,32 @@ export function SearchResultCard({
 				color={color}
 				fullWidth
 				onClick={() => {
-					router.push({
-						pathname: "/booknow",
-						query: {
-							trainId: id,
-							fromStation,
-							toStation,
-							startDate,
-							trainClass,
-							onewayOrRound,
-							adultPassenger,
-							childPassenger,
-						},
-					});
+					console.log(adultPassenger, childPassenger);
+					if (selectedTrainClass) {
+						router.push({
+							pathname: "/booknow",
+							query: {
+								trainId: id,
+								startDate: dayjs(startDate).format("YYYY-MM-DD"),
+								trainClass: selectedTrainClass,
+								onewayOrRound,
+								adultPassenger,
+								childPassenger,
+							},
+						});
+					} else {
+						notifications.showNotification({
+							radius: "md",
+							icon: <BsX size={18} />,
+							color: "red",
+							title: "Please select a class",
+							message:
+								"Select from the available class shown above the Book Now button.",
+						});
+					}
 				}}
 			>
-				Book Now
+				Book Now {selectedTrainClass}
 			</Button>
 		</Paper>
 	);

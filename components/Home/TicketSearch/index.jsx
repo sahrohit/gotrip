@@ -31,12 +31,13 @@ import {
 import Recommend from "./Recommend";
 
 const TicketSearch = () => {
+	const [adultPassenger, setAdultPassenger] = useState(1);
+	const [childPassenger, setChildPassenger] = useState(0);
+
 	const form = useForm({
 		initialValues: {
 			onewayOrRound: "one-way",
-			adultPassenger: 1,
-			childPassenger: 0,
-			trainClass: "sl",
+			trainClass: "all",
 			fromStation: "",
 			toStation: "",
 			startDate: new Date(),
@@ -48,7 +49,11 @@ const TicketSearch = () => {
 			adultPassenger: (value) => value > 0,
 			childPassenger: (value) => value >= 0,
 			trainClass: (value) =>
-				value === "sl" || value === "3a" || value === "2a" || value === "1a",
+				value === "sl" ||
+				value === "3a" ||
+				value === "2a" ||
+				value === "1a" ||
+				value === "all",
 			fromStation: (value) => value !== "",
 			toStation: (value) => value !== "",
 		},
@@ -135,15 +140,20 @@ const TicketSearch = () => {
 								]}
 								{...form.getInputProps("onewayOrRound")}
 							/>
-							<Passgenger />
+							<Passgenger
+								adultPassenger={adultPassenger}
+								setAdultPassenger={setAdultPassenger}
+								childPassenger={childPassenger}
+								setChildPassenger={setChildPassenger}
+							/>
 							<Select
 								data={[
+									{ value: "all", label: "All" },
 									{ value: "sl", label: "Sleeper (SL)" },
 									{ value: "3a", label: "AC 3 Tier (3A)" },
 									{ value: "2a", label: "AC 2 Tier (2A)" },
 									{ value: "1a", label: "AC First Class (1A)" },
 								]}
-								defaultValue="sl"
 								{...form.getInputProps("trainClass")}
 							/>
 						</Group>
@@ -217,8 +227,8 @@ const TicketSearch = () => {
 									startDate={form.values.startDate}
 									trainClass={form.values.trainClass}
 									onewayOrRound={form.values.onewayOrRound}
-									adultPassenger={form.values.adultPassenger}
-									childPassenger={form.values.childPassenger}
+									adultPassenger={adultPassenger}
+									childPassenger={childPassenger}
 									result={result}
 									setResult={setResult}
 									loading={loading}

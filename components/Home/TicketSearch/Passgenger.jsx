@@ -12,10 +12,13 @@ import {
 import { AiOutlineUser, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 
-const Passgenger = () => {
+const Passgenger = ({
+	adultPassenger,
+	setAdultPassenger,
+	childPassenger,
+	setChildPassenger,
+}) => {
 	const [opened, setOpened] = useState(false);
-	const [adultPassenger, setAdultPassenger] = useState(1);
-	const [childPassenger, setChildPassenger] = useState(0);
 
 	return (
 		<Group>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
 	Group,
 	Select,
@@ -7,8 +7,6 @@ import {
 	Button,
 	Center,
 	Collapse,
-	Text,
-	BackgroundImage,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
@@ -71,13 +69,6 @@ const TicketSearch = () => {
 		value: `${station.code}`,
 		label: `${station.name} - ${station.code}`,
 	}));
-
-	const setToStation = useCallback(
-		(to_station_code) => {
-			form.setValues({ ...form.values, toStation: to_station_code });
-		},
-		[form]
-	);
 
 	return (
 		<Box

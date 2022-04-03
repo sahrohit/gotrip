@@ -10,6 +10,7 @@ import {
 	Center,
 	Badge,
 	Button,
+	Modal,
 } from "@mantine/core";
 import { BsPencilSquare, BsTrash, BsThreeDots } from "react-icons/bs";
 import { useAuth } from "@contexts/AuthContext";
@@ -30,6 +31,7 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { colorizeFromText } from "@components/helpers/colorize";
+import EditModal from "./EditModal";
 
 export default function Bookings() {
 	const router = useRouter();
@@ -128,9 +130,7 @@ export default function Bookings() {
 				</td>
 				<td>
 					<Group spacing={0} position="right">
-						<ActionIcon>
-							<BsPencilSquare size={16} />
-						</ActionIcon>
+						<EditModal bookingDetails={item} />
 						<ActionIcon
 							onClick={() => {
 								router.push({

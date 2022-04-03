@@ -137,8 +137,7 @@ const BookNow = () => {
 			<Paper p={10}>
 				<form
 					onSubmit={form.onSubmit(async (values) => {
-						const gender = values.initials === "mrs" ? "male" : "female";
-
+						const gender = values.initials === "mrs" ? "female" : "male";
 						const docRef = await addDoc(collection(db, "bookings"), {
 							...values,
 							trainClass,

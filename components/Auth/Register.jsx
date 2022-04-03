@@ -5,6 +5,10 @@ import {
 	Group,
 	createStyles,
 	Button,
+	Progress,
+	Text,
+	Popover,
+	Box,
 } from "@mantine/core";
 import React, { useEffect } from "react";
 import * as Yup from "yup";
@@ -16,6 +20,7 @@ import { BiAt } from "react-icons/bi";
 import { BsCheck2, BsX } from "react-icons/bs";
 import { MdOutlinePassword } from "react-icons/md";
 import to from "@components/helpers/to";
+import { useState } from "react";
 import { useNotifications } from "@mantine/notifications";
 import { useAuth } from "@contexts/AuthContext";
 import { db } from "../../firebase";
@@ -24,7 +29,13 @@ import { useRouter } from "next/router";
 
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Email is required"),
-	password: Yup.string().min(6, "Too Short!").required("Password is required"),
+	password: Yup.string()
+		.min(6, "Too Short!")
+		.required("Password is required")
+		.matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+			"Password requirement didn`t match."
+		),
 	firstname: Yup.string().required("Firstname is required"),
 	lastname: Yup.string(),
 });
@@ -37,6 +48,38 @@ const useStyles = createStyles((theme) => ({
 		marginTop: theme.spacing.md,
 	},
 }));
+
+function PasswordRequirement({ meets, label }) {
+	return (
+		<Text
+			color={meets ? "teal" : "red"}
+			sx={{ display: "flex", alignItems: "center" }}
+			mt={7}
+			size="sm"
+		>
+			{meets ? <BsCheck2 /> : <BsX />} <Box ml={10}>{label}</Box>
+		</Text>
+	);
+}
+
+const requirements = [
+	{ re: /[0-9]/, label: "Includes number" },
+	{ re: /[a-z]/, label: "Includes lowercase letter" },
+	{ re: /[A-Z]/, label: "Includes uppercase letter" },
+	{ re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: "Includes special symbol" },
+];
+
+function getStrength(password) {
+	let multiplier = password.length > 5 ? 0 : 1;
+
+	requirements.forEach((requirement) => {
+		if (!requirement.re.test(password)) {
+			multiplier += 1;
+		}
+	});
+
+	return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10);
+}
 
 const Register = ({ redirect }) => {
 	const { classes } = useStyles();
@@ -58,6 +101,19 @@ const Register = ({ redirect }) => {
 		},
 		schema: yupResolver(LoginSchema),
 	});
+
+	const [popoverOpened, setPopoverOpened] = useState(false);
+	// const [value, setValue] = useState("");
+	const checks = requirements.map((requirement, index) => (
+		<PasswordRequirement
+			key={index}
+			label={requirement.label}
+			meets={requirement.re.test(form.values.password)}
+		/>
+	));
+
+	const strength = getStrength(form.values.password);
+	const color = strength === 100 ? "teal" : strength > 50 ? "yellow" : "red";
 
 	const { errors } = form;
 
@@ -203,17 +259,45 @@ const Register = ({ redirect }) => {
 						autoComplete="email"
 					/>
 
-					<PasswordInput
-						size="md"
-						className={classes.input}
-						icon={<MdOutlinePassword />}
-						placeholder="Password"
-						label="Password"
-						{...form.getInputProps("password")}
-						onFocus={() => (isHandsUp.value = true)}
-						onBlur={() => (isHandsUp.value = false)}
-						autoComplete="new-password"
-					/>
+					<Popover
+						opened={popoverOpened}
+						position="bottom"
+						placement="start"
+						withArrow
+						styles={{ popover: { width: "100%" } }}
+						trapFocus={false}
+						transition="pop-top-left"
+						onFocusCapture={() => setPopoverOpened(true)}
+						onBlurCapture={() => setPopoverOpened(false)}
+						sx={(theme) => ({
+							width: "100%",
+						})}
+						target={
+							<PasswordInput
+								size="md"
+								className={classes.input}
+								icon={<MdOutlinePassword />}
+								placeholder="Password"
+								label="Password"
+								{...form.getInputProps("password")}
+								onFocus={() => (isHandsUp.value = true)}
+								onBlur={() => (isHandsUp.value = false)}
+								autoComplete="new-password"
+							/>
+						}
+					>
+						<Progress
+							color={color}
+							value={strength}
+							size={5}
+							style={{ marginBottom: 10 }}
+						/>
+						<PasswordRequirement
+							label="Includes at least 6 characters"
+							meets={form.values.password.length > 5}
+						/>
+						{checks}
+					</Popover>
 
 					<Group
 						sx={(theme) => ({

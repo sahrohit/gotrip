@@ -196,7 +196,11 @@ export function SearchResultCard({
 					}
 				}}
 			>
-				Book Now {price && `for Rs ${price}/adult & Rs ${price / 2}/child`}
+				Book Now{" "}
+				{price &&
+					`for Rs ${Math.round(price)}/adult & Rs ${Math.round(
+						price / 2
+					)}/child`}
 			</Button>
 			<AuthModal
 				opened={openedAuthModal}

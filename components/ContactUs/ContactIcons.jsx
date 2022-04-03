@@ -71,7 +71,7 @@ function ContactIcon({
 }
 
 const MOCKDATA = [
-	{ title: "Email", description: "gotrip@google.omc", icon: BsAt },
+	{ title: "Email", description: "gotrip@google.com", icon: BsAt },
 	{ title: "Phone", description: "+91 (696) 969 69 69", icon: BsTelephone },
 	{
 		title: "Address",

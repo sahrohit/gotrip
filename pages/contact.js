@@ -79,19 +79,26 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-const social = [BsTwitter, BsYoutube, BsInstagram];
+const social = [
+	{ icon: BsTwitter, href: "https://twitter.com/pewdiepie" },
+	{ icon: BsYoutube, href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+	{ icon: BsInstagram, href: "https://www.github.com/sahrohit/gotrip" },
+];
 
 const ContactUs = () => {
 	const { classes } = useStyles();
 
-	const icons = social.map((Icon, index) => (
+	const icons = social.map((item, index) => (
 		<ActionIcon
 			key={index}
 			size={28}
 			className={classes.social}
 			variant="transparent"
+			onClick={() => {
+				window.open(item.href, "_blank");
+			}}
 		>
-			<Icon size={22} />
+			<item.icon size={22} />
 		</ActionIcon>
 	));
 

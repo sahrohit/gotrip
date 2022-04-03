@@ -1,15 +1,37 @@
-<!-- PROJECT LOGO -->
+import { Navbar } from "@components/Navbar";
+import Image from "next/image";
+import { Box } from "@mantine/core";
+
+<>
+<Navbar/>
+
+<Box sx={(theme) => ({
+
+    [theme.fn.largerThan('lg')]: {
+    	marginRight: "200px",
+    	marginLeft: "200px",
+      },
+
+    [theme.fn.smallerThan('lg')]: {
+    	marginRight: "100px",
+    	marginLeft: "100px",
+      },
+
+    [theme.fn.smallerThan('md')]: {
+    	marginRight: "50px",
+    	marginLeft: "50px",
+      },
+
+})} >
+
 <br />
 <div align="center">
   <a href="https://github.com/sahrohit/gotrip">
-    <img src="./public/logo_dark.svg" alt="Logo" width="160" height="80">
+    <Image src="/logo_light.svg" alt="Logo" width="160" height="80"/>
   </a>
 
-<h3 align="center">GoTrip</h3>
-
-  <p align="center">
-    Built with Firebase & Next.js
-    <br />
+    <h3 align="center">GoTrip</h3>
+    <p align="center">Built with Firebase & Next.js</p>
     <a href="https://gotrip.vercel.app">https://gotrip.vercel.app</a>
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -21,9 +43,10 @@
 
 ## About The Project
 
-[![Product Image](https://shot.screenshotapi.net/screenshot?token=SYFRG8T-XWFMK5V-PGRW10V-VTR9YYG&url=https%3A%2F%2Fgotrip.vercel.app&width=1300&height=722&full_page=true&output=image&file_type=webp&lazy_load=true&dark_mode=true&wait_for_event=domcontentloaded&delay=5000&ttl=86400)](https://gotrip.vercel.app)
+{/* [![Product Image](https://shot.screenshotapi.net/screenshot?token=SYFRG8T-XWFMK5V-PGRW10V-VTR9YYG&url=https%3A%2F%2Fgotrip.vercel.app&width=1300&height=722&full_page=true&output=image&file_type=webp&lazy_load=true&dark_mode=true&wait_for_event=domcontentloaded&delay=5000&ttl=86400)](https://gotrip.vercel.app) */}
 
 Description
+Go trip is a website for booking train tickets. Created for a simple booking and travel experience. We make the booking process as simple and painless as possible so that you can have a pleasant and comfortable travel experience.
 
 ### Built With
 
@@ -32,11 +55,8 @@ Description
 - [Mantine](https://mantine.dev/)
 - [Framer Motion](https://www.framer.com/motion/)
 
-<!-- GETTING STARTED -->
-
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Installation
@@ -60,36 +80,22 @@ To initialize the frontend,
 
 `npm run dev` - Starts a Next App at http://localhost:3000
 
-<!-- ROADMAP -->
-<!--
-## Roadmap
-
--   [] Feature 1
--   [] Feature 2
--   [] Feature 3
-    -   [] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues). -->
-
-<!-- CONTRIBUTING -->
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag &quot;enhancement&quot;.
+Don&apos;t forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your Changes (`git commit -m &apos;Add some AmazingFeature&apos;`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-<!-- LICENSE -->
 
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<!-- CONTACT -->
+</Box>
+</>

@@ -8,9 +8,12 @@ import {
 	Group,
 	Text,
 	List,
+	Box,
 	ThemeIcon,
 } from "@mantine/core";
 import { AiOutlineCheck } from "react-icons/ai";
+import Rive from "rive-react";
+import { useRive, useStateMachineInput } from "rive-react";
 
 const useStyles = createStyles((theme) => ({
 	inner: {
@@ -18,11 +21,12 @@ const useStyles = createStyles((theme) => ({
 		justifyContent: "space-between",
 		paddingTop: theme.spacing.xl * 4,
 		paddingBottom: theme.spacing.xl * 4,
+		flexWrap: "wrap",
 	},
 
 	content: {
-		maxWidth: 480,
-		marginRight: theme.spacing.xl * 3,
+		maxWidth: 450,
+		marginRight: theme.spacing.xl * 2,
 
 		[theme.fn.smallerThan("md")]: {
 			maxWidth: "100%",
@@ -69,6 +73,13 @@ const useStyles = createStyles((theme) => ({
 
 export function Banner() {
 	const { classes } = useStyles();
+
+	const { RiveComponent, rive } = useRive({
+		src: "/rives/party.riv",
+		artboard: "New Artboard",
+		autoplay: true,
+	});
+
 	return (
 		<Container my={120}>
 			<div className={classes.inner}>
@@ -121,6 +132,9 @@ export function Banner() {
 							Book Now
 						</Button>
 					</Group>
+				</div>
+				<div style={{ height: "300px", width: "430px", overflow: "unset" }}>
+					<Rive src="/rives/party.riv" autoplay />
 				</div>
 			</div>
 		</Container>

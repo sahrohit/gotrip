@@ -1,5 +1,5 @@
 import { Avatar, Text, Button, Paper, Group, Tooltip } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { showNotification, useNotifications } from "@mantine/notifications";
 import { useModals } from "@mantine/modals";
 
 import { useAuth } from "@contexts/AuthContext";
@@ -8,12 +8,20 @@ import { BsCheck2, BsX } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { BiUnlink } from "react-icons/bi";
 import { useRouter } from "next/router";
+import { MdOutlineLogout } from "react-icons/md";
+import to from "@components/helpers/to";
 
 const ProfilePanel = () => {
 	const modals = useModals();
 	const router = useRouter();
-	const { currentUser, providers, linkGoogleAccount, unLinkGoogleAccount } =
-		useAuth();
+	const {
+		currentUser,
+		providers,
+		linkGoogleAccount,
+		unLinkGoogleAccount,
+		logOut,
+	} = useAuth();
+	const notifications = useNotifications();
 
 	const openConfirmModal = () =>
 		modals.openConfirmModal({
@@ -135,6 +143,23 @@ const ProfilePanel = () => {
 					Link with Google
 				</Button>
 			)}
+			<Button
+				mt={50}
+				color="red"
+				fullWidth
+				variant="outline"
+				leftIcon={<MdOutlineLogout size={14} />}
+				onClick={async () => {
+					const [data, error] = await to(
+						logOut(),
+						notifications,
+						"Logged Out Successfully",
+						"An Error Occured"
+					);
+				}}
+			>
+				Logout
+			</Button>
 		</Paper>
 	);
 };

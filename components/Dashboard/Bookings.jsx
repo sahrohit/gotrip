@@ -29,6 +29,7 @@ import { db } from "../../firebase";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { colorizeFromText } from "@components/helpers/colorize";
 
 export default function Bookings() {
 	const router = useRouter();
@@ -58,82 +59,95 @@ export default function Bookings() {
 		return <FullPageLoadingSpinner />;
 	}
 
-	const rows = bookingDetails.map((item) => (
-		<tr key={item.name}>
-			<td>
-				<Text color="dimmed" size="xs">
-					Status
-				</Text>
-				<Badge>{item.status}</Badge>
-			</td>
-			<td>
-				<Group spacing="md">
-					<div>
-						<Text size="md" weight={500}>
-							{item.from_station_name}
-						</Text>
-						<Text color="dimmed" size="xs">
-							From
-						</Text>
-					</div>
-				</Group>
-			</td>
-			<td>
-				<Group spacing="md">
-					<div>
-						<Text size="md" weight={500}>
-							{item.to_station_name}
-						</Text>
-						<Text color="dimmed" size="xs">
-							To
-						</Text>
-					</div>
-				</Group>
-			</td>
-			<td>
-				<Text size="md">{item.PNR}</Text>
-				<Text size="xs" color="dimmed">
-					PNR
-				</Text>
-			</td>
-			<td>
-				<Text size="md" weight={500}>
-					{item.departureTime.slice(0, -3)} on{" "}
-					{dayjs(new Date(item.startDate)).format("MMMM D, YYYY")}
-				</Text>
-				<Text size="xs" color="dimmed">
-					Departure
-				</Text>
-			</td>
-			<td>
-				<Text size="md" weight={500}>
-					{dayjs(new Date(item.bookedAt.toMillis())).format("MMMM D, YYYY")}
-				</Text>
-				<Text size="xs" color="dimmed">
-					Booked on
-				</Text>
-			</td>
-			<td>
-				<Group spacing={0} position="right">
-					<ActionIcon>
-						<BsPencilSquare size={16} />
-					</ActionIcon>
-					<ActionIcon
-						onClick={() => {
-							router.push({
-								pathname: "/bookings",
-								query: {
-									bookingId: item.bookingId,
-								},
-							});
-						}}
-					>
-						<BsThreeDots size={16} />
-					</ActionIcon>
-				</Group>
-			</td>
-		</tr>
-	));
+	const rows = bookingDetails.map((item) => {
+		const bookingStatus =
+			dayjs(new Date()).diff(
+				dayjs(dayjs(item.startDate).format("MMM D, YYYY"))
+					.add(item.duration_h, "hour")
+					.add(item.duration_m, "minute")
+					.add(parseInt(item.departureTime.slice(0, 2)), "hour")
+					.add(parseInt(item.departureTime.slice(3, 5)), "minute")
+			) > 0
+				? "completed"
+				: item.status;
+
+		return (
+			<tr key={item.name}>
+				<td>
+					<Text color="dimmed" size="xs">
+						Status
+					</Text>
+					<Badge color={colorizeFromText(bookingStatus)}>{bookingStatus}</Badge>
+				</td>
+				<td>
+					<Group spacing="md">
+						<div>
+							<Text size="md" weight={500}>
+								{item.from_station_name}
+							</Text>
+							<Text color="dimmed" size="xs">
+								From
+							</Text>
+						</div>
+					</Group>
+				</td>
+				<td>
+					<Group spacing="md">
+						<div>
+							<Text size="md" weight={500}>
+								{item.to_station_name}
+							</Text>
+							<Text color="dimmed" size="xs">
+								To
+							</Text>
+						</div>
+					</Group>
+				</td>
+				<td>
+					<Text size="md">{item.PNR}</Text>
+					<Text size="xs" color="dimmed">
+						PNR
+					</Text>
+				</td>
+				<td>
+					<Text size="md" weight={500}>
+						{item.departureTime.slice(0, -3)} on{" "}
+						{dayjs(new Date(item.startDate)).format("MMMM D, YYYY")}
+					</Text>
+					<Text size="xs" color="dimmed">
+						Departure
+					</Text>
+				</td>
+				<td>
+					<Text size="md" weight={500}>
+						{dayjs(new Date(item.bookedAt.toMillis())).format("MMMM D, YYYY")}
+					</Text>
+					<Text size="xs" color="dimmed">
+						Booked on
+					</Text>
+				</td>
+				<td>
+					<Group spacing={0} position="right">
+						<ActionIcon>
+							<BsPencilSquare size={16} />
+						</ActionIcon>
+						<ActionIcon
+							onClick={() => {
+								router.push({
+									pathname: "/bookings",
+									query: {
+										bookingId: item.bookingId,
+									},
+								});
+							}}
+						>
+							<BsThreeDots size={16} />
+						</ActionIcon>
+					</Group>
+				</td>
+			</tr>
+		);
+	});
 
 	return (
 		<>

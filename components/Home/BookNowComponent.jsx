@@ -116,7 +116,15 @@ const BookNowComponent = () => {
 				</Container>
 
 				<div className={classes.controls}>
-					<Button variant="white" size="md">
+					<Button
+						variant="white"
+						size="md"
+						onClick={() => {
+							if (window) {
+								window.scrollTo(0, 0);
+							}
+						}}
+					>
 						Book Now
 					</Button>
 				</div>

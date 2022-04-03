@@ -23,6 +23,7 @@ import {
 	Select,
 	Space,
 	Center,
+	Paper,
 } from "@mantine/core";
 import { customAlphabet } from "nanoid";
 import * as Yup from "yup";
@@ -31,6 +32,7 @@ import { useAuth } from "@contexts/AuthContext";
 import { BiAt } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
+import calculatePrice from "@components/helpers/price";
 
 const BookNowSchema = Yup.object().shape({
 	initials: Yup.string().required("Required"),
@@ -84,6 +86,7 @@ const BookNow = () => {
 	if (!trainData) {
 		return <FullPageLoadingSpinner />;
 	}
+	const price = calculatePrice(trainData.distance, trainClass);
 
 	const adultFields = form.values.adults.map((_, index) => (
 		<Group key={index} mt="xs">
@@ -124,156 +127,179 @@ const BookNow = () => {
 	));
 
 	return (
-		<Container>
-			<form
-				onSubmit={form.onSubmit(async (values) => {
-					const gender = values.initials === "mrs" ? "male" : "female";
-					const docRef = await addDoc(collection(db, "bookings"), {
-						...values,
-						trainClass,
-						startDate,
-						gender,
-						trainId,
-						PNR: nanoid(),
-						bookedByUid: currentUser.uid,
-						bookedByName: currentUser.displayName,
-						bookedByEmail: currentUser.email,
-						from_station_name: trainData.from_station_name,
-						to_station_name: trainData.to_station_name,
-						departureTime: trainData.departure,
-						arrivalTime: trainData.arrival,
-						bookedAt: serverTimestamp(),
-						status: "confirmed",
-					});
-					router.replace({
-						pathname: "/bookings",
-						query: {
-							bookingId: docRef.id,
-						},
-					});
-				})}
-			>
-				<Group direction="row">
-					<TicketDetail trainData={trainData} startDate={startDate} />
-					<Group
-						direction="row"
-						size="xl"
-						sx={(theme) => ({
-							width: "100%",
-							justifyContent: "space-around",
-						})}
-					>
-						<Box>
-							<Box my={20}>
-								<Text size="xl">Contact Information</Text>
-								<Text size="sm" color="dimmed">
-									Ticket Details will be sent to these Information.
-								</Text>
-							</Box>
-							<Group
-								direction="column"
-								sx={(theme) => ({
-									justifyContent: "flex-start",
-									alignItems: "flex-start",
-								})}
-							>
-								<Select
-									sx={(theme) => ({
-										width: "100%",
-									})}
-									data={[
-										{ value: "mr", label: "Mr." },
-										{ value: "mrs", label: "Mrs." },
-										{ value: "joke", label: "Attack Helicopter" },
-									]}
-									{...form.getInputProps("initials")}
-								/>
+		<Container
+			sx={(theme) => ({
+				height: "100vh",
+				display: "grid",
+				placeItems: "center",
+			})}
+		>
+			<Paper p={10}>
+				<form
+					onSubmit={form.onSubmit(async (values) => {
+						const gender = values.initials === "mrs" ? "male" : "female";
 
-								<TextInput
-									size="md"
-									type="text"
-									sx={(theme) => ({
-										width: "100%",
-									})}
-									label="Name"
-									icon={<AiOutlineUser />}
-									placeholder="Name"
-									error={form.errors.name}
-									{...form.getInputProps("name")}
-									autoComplete="firstName"
-								/>
-
-								<TextInput
-									size="md"
-									type="email"
-									sx={(theme) => ({
-										width: "100%",
-									})}
-									label="Email"
-									icon={<BiAt />}
-									placeholder="Email"
-									error={form.errors.email}
-									{...form.getInputProps("email")}
-									autoComplete="email"
-								/>
-								<NumberInput
-									size="md"
-									sx={(theme) => ({
-										width: "100%",
-									})}
-									label="Contact Number"
-									icon={<BsTelephone />}
-									placeholder="Contact Number"
-									error={form.errors.phoneNumber}
-									{...form.getInputProps("phoneNumber")}
-									autoComplete="tel-national"
-									hideControls
-								/>
-							</Group>
-						</Box>
-						<Group direction="column">
-							<Box sx={{ maxWidth: 500 }} mx="auto">
-								<Center my={20}>
-									<Text size="xl">Traveller`s Information</Text>
-								</Center>
-
-								{adultFields.length > 0 && (
-									<>
-										<Text size="lg">Adult Passengers ({adultPassenger})</Text>
-										<>{adultFields}</>
-									</>
-								)}
-								<Space h="xl" />
-								{childFields.length > 0 && (
-									<>
-										<Text size="lg">Child Passengers ({childPassenger})</Text>
-										<Text size="sm" color="dimmed">
-											Only for age 0-12
-										</Text>
-										<>{childFields}</>
-									</>
-								)}
-							</Box>
-						</Group>
-					</Group>
-				</Group>
-
-				<Group
-					direction="row"
-					spacing="xl"
-					sx={(theme) => ({
-						width: "100%",
-						justifyContent: "center",
-						marginTop: theme.spacing.xl,
-						marginBottom: theme.spacing.xl,
+						const docRef = await addDoc(collection(db, "bookings"), {
+							...values,
+							trainClass,
+							startDate,
+							gender,
+							trainId,
+							PNR: nanoid(),
+							bookedByUid: currentUser.uid,
+							bookedByName: currentUser.displayName,
+							bookedByEmail: currentUser.email,
+							from_station_code: trainData.from_station_code,
+							to_station_code: trainData.to_station_code,
+							from_station_name: trainData.from_station_name,
+							to_station_name: trainData.to_station_name,
+							departureTime: trainData.departure,
+							arrivalTime: trainData.arrival,
+							bookedAt: serverTimestamp(),
+							status: "confirmed",
+							duration_h: trainData.duration_h,
+							duration_m: trainData.duration_m,
+							price: price * adultPassenger + (price / 2) * childPassenger,
+						});
+						router.replace({
+							pathname: "/bookings",
+							query: {
+								bookingId: docRef.id,
+							},
+						});
 					})}
 				>
-					<Button type="submit">Book Now</Button>
-					<Button color="red" variant="outline">
-						Cancel
-					</Button>
-				</Group>
-			</form>
+					<Group direction="row">
+						<TicketDetail trainData={trainData} startDate={startDate} />
+						<Group
+							direction="row"
+							size="xl"
+							sx={(theme) => ({
+								width: "100%",
+								justifyContent: "space-around",
+							})}
+						>
+							<Box>
+								<Box my={20}>
+									<Text size="xl">Contact Information</Text>
+									<Text size="sm" color="dimmed">
+										Ticket Details will be sent to these Information.
+									</Text>
+								</Box>
+								<Group
+									direction="column"
+									sx={(theme) => ({
+										justifyContent: "flex-start",
+										alignItems: "flex-start",
+									})}
+								>
+									<Select
+										sx={(theme) => ({
+											width: "100%",
+										})}
+										data={[
+											{ value: "mr", label: "Mr." },
+											{ value: "mrs", label: "Mrs." },
+											{ value: "joke", label: "Attack Helicopter" },
+										]}
+										{...form.getInputProps("initials")}
+									/>
+
+									<TextInput
+										size="md"
+										type="text"
+										sx={(theme) => ({
+											width: "100%",
+										})}
+										label="Name"
+										icon={<AiOutlineUser />}
+										placeholder="Name"
+										error={form.errors.name}
+										{...form.getInputProps("name")}
+										autoComplete="firstName"
+									/>
+
+									<TextInput
+										size="md"
+										type="email"
+										sx={(theme) => ({
+											width: "100%",
+										})}
+										label="Email"
+										icon={<BiAt />}
+										placeholder="Email"
+										error={form.errors.email}
+										{...form.getInputProps("email")}
+										autoComplete="email"
+									/>
+									<NumberInput
+										size="md"
+										sx={(theme) => ({
+											width: "100%",
+										})}
+										label="Contact Number"
+										icon={<BsTelephone />}
+										placeholder="Contact Number"
+										error={form.errors.phoneNumber}
+										{...form.getInputProps("phoneNumber")}
+										autoComplete="tel-national"
+										hideControls
+									/>
+								</Group>
+							</Box>
+							<Group direction="column">
+								<Box sx={{ maxWidth: 500 }} mx="auto">
+									<Center my={20}>
+										<Text size="xl">Traveller`s Information</Text>
+									</Center>
+
+									{adultFields.length > 0 && (
+										<>
+											<Text size="lg">Adult Passengers ({adultPassenger})</Text>
+											<>{adultFields}</>
+										</>
+									)}
+									<Space h="xl" />
+									{childFields.length > 0 && (
+										<>
+											<Text size="lg">Child Passengers ({childPassenger})</Text>
+											<Text size="sm" color="dimmed">
+												Only for age 0-12
+											</Text>
+											<>{childFields}</>
+										</>
+									)}
+								</Box>
+							</Group>
+						</Group>
+					</Group>
+
+					<Group
+						direction="row"
+						spacing="xl"
+						sx={(theme) => ({
+							width: "100%",
+							justifyContent: "center",
+							marginTop: theme.spacing.xl,
+							marginBottom: theme.spacing.xl,
+						})}
+					>
+						<Button type="submit">
+							Proceed to Pay Rs{" "}
+							{price * adultPassenger + (price / 2) * childPassenger}
+						</Button>
+						<Button
+							color="red"
+							variant="outline"
+							onClick={() => {
+								router.back();
+							}}
+						>
+							Cancel
+						</Button>
+					</Group>
+				</form>
+			</Paper>
 		</Container>
 	);
 };

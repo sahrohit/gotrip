@@ -17,6 +17,9 @@ import { BsX } from "react-icons/bs";
 
 import { COLORS } from "@config/colors";
 import { useNotifications } from "@mantine/notifications";
+import AuthModal from "@components/Auth/AuthModal";
+import { useAuth } from "@contexts/AuthContext";
+import calculatePrice from "@components/helpers/price";
 
 export function SearchResultCard({
 	item,
@@ -50,9 +53,13 @@ export function SearchResultCard({
 	color,
 }) {
 	const notifications = useNotifications();
+	const [openedAuthModal, setOpenedAuthModal] = useState(false);
+	const { currentUser } = useAuth();
 
 	const [selectedTrainClass, setSeletcedTrainClass] = useState();
 	const router = useRouter();
+
+	const price = calculatePrice(distance, selectedTrainClass);
 
 	return (
 		<Paper withBorder p="md" radius="md" my={10}>
@@ -66,14 +73,14 @@ export function SearchResultCard({
 					</Text>
 				</Group>
 				<SegmentedControl
-					orientation="vertical"
+					orientation="horizontal"
 					value={showOnMap ? "on" : "off"}
 					color={color}
 					radius="md"
 					size="xs"
 					data={[
 						{ label: "Show", value: "on" },
-						{ label: "Not Show", value: "off" },
+						{ label: "Don't Show", value: "off" },
 					]}
 					onChange={(val) => {
 						setResult((prev) => {
@@ -92,7 +99,7 @@ export function SearchResultCard({
 				<Text>
 					{from_station_name} ({from_station_code})
 					<Text color="dimmed" size="xs">
-						{arrival} | {dayjs(new Date()).format("MMM D, YYYY")}
+						{departure} | {dayjs(startDate).format("MMM D, YYYY")}
 					</Text>
 				</Text>
 				<Divider
@@ -119,10 +126,12 @@ export function SearchResultCard({
 				<Text align="right">
 					{to_station_name} ({to_station_code})
 					<Text color="dimmed" size="xs" align="right">
-						{departure} |{" "}
-						{dayjs(new Date())
+						{arrival} |{" "}
+						{dayjs(dayjs(startDate).format("MMM D, YYYY"))
 							.add(duration_h, "hour")
 							.add(duration_m, "minute")
+							.add(parseInt(departure.slice(0, 2)), "hour")
+							.add(parseInt(departure.slice(3, 5)), "minute")
 							.format("MMM D, YYYY")}
 					</Text>
 				</Text>
@@ -153,19 +162,28 @@ export function SearchResultCard({
 				color={color}
 				fullWidth
 				onClick={() => {
-					console.log(adultPassenger, childPassenger);
 					if (selectedTrainClass) {
-						router.push({
-							pathname: "/booknow",
-							query: {
-								trainId: id,
-								startDate: dayjs(startDate).format("YYYY-MM-DD"),
-								trainClass: selectedTrainClass,
-								onewayOrRound,
-								adultPassenger,
-								childPassenger,
-							},
-						});
+						if (currentUser) {
+							router.push({
+								pathname: "/booknow",
+								query: {
+									trainId: id,
+									startDate: dayjs(startDate).format("YYYY-MM-DD"),
+									trainClass: selectedTrainClass,
+									onewayOrRound,
+									adultPassenger,
+									childPassenger,
+								},
+							});
+						} else {
+							setOpenedAuthModal(true);
+							notifications.showNotification({
+								radius: "md",
+								icon: <BsX size={18} />,
+								color: "yellow",
+								title: "Please Login to Continue",
+							});
+						}
 					} else {
 						notifications.showNotification({
 							radius: "md",
@@ -178,8 +196,15 @@ export function SearchResultCard({
 					}
 				}}
 			>
-				Book Now {selectedTrainClass}
+				Book Now {price && `for Rs ${price}/adult & Rs ${price / 2}/child`}
 			</Button>
+			<AuthModal
+				opened={openedAuthModal}
+				setOpened={setOpenedAuthModal}
+				redirect={`/booknow?trainId=${id}&startDate=${dayjs(startDate).format(
+					"YYYY-MM-DD"
+				)}&trainClass=${selectedTrainClass}&onewayOrRound=${onewayOrRound}&adultPassenger=${adultPassenger}&childPassenger=${childPassenger}`}
+			/>
 		</Paper>
 	);
 }

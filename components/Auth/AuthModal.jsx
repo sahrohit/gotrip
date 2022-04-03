@@ -4,9 +4,8 @@ import Login from "./Login";
 import Register from "./Register";
 import ResetPasswordModal from "./ResetPasswordModal";
 
-const AuthModal = ({ opened, setOpened }) => {
+const AuthModal = ({ opened, setOpened, redirect = "" }) => {
 	const [segmentedControlValue, setSegmentedControlValue] = useState("login");
-
 	const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
 	return (
@@ -41,11 +40,12 @@ const AuthModal = ({ opened, setOpened }) => {
 				/>
 			) : segmentedControlValue === "login" ? (
 				<Login
+					redirect={redirect}
 					forgotPasswordModalOpen={forgotPasswordModalOpen}
 					setForgotPasswordModalOpen={setForgotPasswordModalOpen}
 				/>
 			) : (
-				<Register />
+				<Register redirect={redirect} />
 			)}
 		</Modal>
 	);

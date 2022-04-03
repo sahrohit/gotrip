@@ -13,7 +13,7 @@ import {
 	Divider,
 	Alert,
 } from "@mantine/core";
-import { useBooleanToggle,useWindowScroll } from "@mantine/hooks";
+import { useBooleanToggle, useWindowScroll } from "@mantine/hooks";
 import Logo from "@components/Logo";
 import Link from "next/link";
 import DrawerContent from "./DrawerContent";
@@ -23,6 +23,8 @@ import { useAuth } from "@contexts/AuthContext";
 import { NAVBAR_LINKS as LINKS } from "@config/navbar";
 import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
+import { BsChevronDown } from "react-icons/bs";
+import { MdOutlineLogout } from "react-icons/md";
 
 const HEADER_HEIGHT = 56;
 
@@ -172,30 +174,15 @@ export function Navbar() {
 									size={36}
 									className={classes.menuControl}
 								>
-									<BiHome size={16} />
+									<BsChevronDown size={16} />
 								</ActionIcon>
 							}
 							transition="pop"
 							placement="end"
 						>
-							<Menu.Item icon={<BiHome size={16} color={menuIconColor} />}>
-								Schedule for later
-							</Menu.Item>
-							<Menu.Item icon={<BiHome size={16} color={menuIconColor} />}>
-								Save draft
-							</Menu.Item>
-							<Menu.Item icon={<BiHome size={16} color={menuIconColor} />}>
-								Delete
-							</Menu.Item>
-							<Divider />
-							<Menu.Label>Danger zone</Menu.Label>
-							<Menu.Item icon={<BiHome size={14} />}>
-								Transfer my data
-							</Menu.Item>
-
 							<Menu.Item
 								color="red"
-								icon={<BiHome size={14} />}
+								icon={<MdOutlineLogout size={14} />}
 								onClick={async () => {
 									const [data, error] = await to(
 										logOut(),

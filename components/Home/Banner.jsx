@@ -108,7 +108,16 @@ export function Banner() {
 					</List>
 
 					<Group mt={30}>
-						<Button radius="xl" size="md" className={classes.control}>
+						<Button
+							radius="xl"
+							size="md"
+							className={classes.control}
+							onClick={() => {
+								if (window) {
+									window.scrollTo(0, 0);
+								}
+							}}
+						>
 							Book Now
 						</Button>
 					</Group>

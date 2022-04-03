@@ -20,6 +20,7 @@ import { useNotifications } from "@mantine/notifications";
 import { useAuth } from "@contexts/AuthContext";
 import { db } from "../../firebase";
 import { setToStorage } from "@components/helpers/localstorage";
+import { useRouter } from "next/router";
 
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Email is required"),
@@ -37,9 +38,10 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-const Register = () => {
+const Register = ({ redirect }) => {
 	const { classes } = useStyles();
 	const notifications = useNotifications();
+	const router = useRouter();
 	const {
 		signUp,
 		signInWithGoogle,
@@ -121,6 +123,9 @@ const Register = () => {
 							});
 							sendVerificationEmail(user).then(() => {
 								setAuthModalOpened(false);
+								if (redirect) {
+									router.push(redirect);
+								}
 							});
 						})
 						.catch((error) => {

@@ -18,6 +18,7 @@ import to from "@components/helpers/to";
 import { useNotifications } from "@mantine/notifications";
 import { useAuth } from "@contexts/AuthContext";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Email is required"),
@@ -30,9 +31,14 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-const Login = ({ forgotPasswordModalOpen, setForgotPasswordModalOpen }) => {
+const Login = ({
+	forgotPasswordModalOpen,
+	setForgotPasswordModalOpen,
+	redirect,
+}) => {
 	const { classes } = useStyles();
 	const notifications = useNotifications();
+	const router = useRouter();
 	const { logIn, signInWithGoogle, setAuthModalOpened } = useAuth();
 	const form = useForm({
 		initialValues: {
@@ -92,6 +98,9 @@ const Login = ({ forgotPasswordModalOpen, setForgotPasswordModalOpen }) => {
 					);
 					if (data) {
 						setAuthModalOpened(false);
+						if (redirect) {
+							router.push(redirect);
+						}
 					}
 					if (error) {
 						trigFail.fire();

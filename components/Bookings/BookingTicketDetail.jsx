@@ -46,7 +46,7 @@ const BookingTicketDetail = ({ trainId, startDate }) => {
 				<Text>
 					{trainData.from_station_name} ({trainData.from_station_code})
 					<Text color="dimmed" size="xs">
-						{trainData.arrival} |{" "}
+						{trainData.departure} |{" "}
 						{dayjs(new Date(startDate)).format("MMM D, YYYY")}
 					</Text>
 				</Text>
@@ -74,10 +74,12 @@ const BookingTicketDetail = ({ trainId, startDate }) => {
 				<Text align="right">
 					{trainData.to_station_name} ({trainData.to_station_code})
 					<Text color="dimmed" size="xs" align="right">
-						{trainData.departure} |{" "}
+						{trainData.arrival} |{" "}
 						{dayjs(new Date(startDate))
 							.add(trainData.duration_h, "hour")
 							.add(trainData.duration_m, "minute")
+							.add(parseInt(trainData.departure.slice(0, 2)), "hour")
+							.add(parseInt(trainData.departure.slice(3, 5)), "minute")
 							.format("MMM D, YYYY")}
 					</Text>
 				</Text>

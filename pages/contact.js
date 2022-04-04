@@ -14,6 +14,12 @@ import {
 import { BsTwitter, BsYoutube, BsInstagram } from "react-icons/bs";
 import { ContactIconsList } from "@components/ContactUs/ContactIcons";
 import { Navbar } from "@components/Navbar";
+import { useForm } from "@mantine/hooks";
+import { addDoc, collection } from "firebase/firestore";
+
+import { db } from "../firebase";
+import { useNotifications } from "@mantine/notifications";
+import { BsCheck2, BsX } from "react-icons/bs";
 
 const useStyles = createStyles((theme) => ({
 	wrapper: {
@@ -88,6 +94,16 @@ const social = [
 const ContactUs = () => {
 	const { classes } = useStyles();
 
+	const form = useForm({
+		initialValues: {
+			name: "",
+			email: "",
+			message: "",
+		},
+	});
+
+	const notifications = useNotifications();
+
 	const icons = social.map((item, index) => (
 		<ActionIcon
 			key={index}
@@ -103,13 +119,39 @@ const ContactUs = () => {
 	));
 
 	return (
-		<>
+		<form
+			onSubmit={form.onSubmit(async (values) => {
+				const docRef = await addDoc(collection(db, "support"), values);
+				if (docRef) {
+					notifications.showNotification({
+						radius: "md",
+						icon: <BsCheck2 size={18} />,
+						color: "teal",
+						title: "Ticket Successfully Opened",
+						message: "Our team will contact you soon.",
+					});
+				} else {
+					notifications.showNotification({
+						radius: "md",
+						icon: <BsX size={18} />,
+						color: "red",
+						title: "An Error Occured",
+						message: "Please try again after some time.",
+					});
+				}
+				form.reset();
+			})}
+		>
 			<Navbar />
 			<Container
 				sx={(theme) => ({
 					height: "80vh",
 					display: "grid",
 					placeItems: "center",
+
+					[theme.fn.smallerThan("sm")]: {
+						marginTop: "200px",
+					},
 				})}
 			>
 				<div className={classes.wrapper}>
@@ -131,15 +173,19 @@ const ContactUs = () => {
 						<div className={classes.form}>
 							<TextInput
 								label="Email"
+								name="email"
 								placeholder="your@email.com"
 								required
 								classNames={{ input: classes.input, label: classes.inputLabel }}
+								{...form.getInputProps("email")}
 							/>
 							<TextInput
 								label="Name"
 								placeholder="Joe Mama"
 								mt="md"
+								name="name"
 								classNames={{ input: classes.input, label: classes.inputLabel }}
+								{...form.getInputProps("name")}
 							/>
 							<Textarea
 								required
@@ -147,17 +193,21 @@ const ContactUs = () => {
 								placeholder="E.g. I had problem with my ticket."
 								minRows={4}
 								mt="md"
+								name="message"
 								classNames={{ input: classes.input, label: classes.inputLabel }}
+								{...form.getInputProps("message")}
 							/>
 
 							<Group position="right" mt="md">
-								<Button className={classes.control}>Send message</Button>
+								<Button type="submit" className={classes.control}>
+									Send message
+								</Button>
 							</Group>
 						</div>
 					</SimpleGrid>
 				</div>
 			</Container>
-		</>
+		</form>
 	);
 };
 

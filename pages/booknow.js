@@ -285,7 +285,10 @@ const BookNow = () => {
 					>
 						<Button type="submit">
 							Proceed to Pay Rs{" "}
-							{price * adultPassenger + (price / 2) * childPassenger}
+							{Math.round(
+								price * adultPassenger + (price / 2) * childPassenger
+							)}
+							.0
 						</Button>
 						<Button
 							color="red"

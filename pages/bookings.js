@@ -109,7 +109,7 @@ const Bookings = () => {
 					<Box>
 						<Text size="md"> Payment Status</Text>
 						<Text size="xl" weight="500">
-							Complete (Rs {bookingData.price})
+							Complete (Rs {Math.round(bookingData.price)}.0)
 						</Text>
 					</Box>
 				</Group>
@@ -149,51 +149,79 @@ const Bookings = () => {
 						/>
 					</Box>
 
-					{bookingData.adults.map((adult) => {
-						return (
-							<Group
-								key={adult.documentId}
-								direction="row"
-								sx={(theme) => ({
-									flexGrow: 1,
-									justifyContent: "space-around",
-								})}
-							>
-								<Group direction="column" spacing={0}>
-									<Text size="xl" weight="500">
-										{adult.name}
+					<Group
+						direction="column"
+						sx={(theme) => ({
+							flexGrow: 1,
+						})}
+					>
+						{bookingData.adults.map((adult) => {
+							return (
+								<Group
+									key={adult.documentId}
+									direction="row"
+									sx={(theme) => ({
+										width: "100%",
+										justifyContent: "space-around",
+									})}
+								>
+									<Group direction="column" spacing={0}>
+										<Text size="xl" weight="500">
+											{adult.name}
+										</Text>
+										<Text size="md">(Adult)</Text>
+									</Group>
+									<Text>
+										({bookingData.from_station_code} -{" "}
+										{bookingData.to_station_code})
 									</Text>
-									<Text size="md">(Adult)</Text>
+									<Group direction="column" spacing={0} align="center">
+										<Text align="right" size="xl" weight="500">
+											{adult.documentId}
+										</Text>
+										<Text size="md">Document No.</Text>
+									</Group>
 								</Group>
-								<Text>
-									({bookingData.from_station_code} -{" "}
-									{bookingData.to_station_code})
-								</Text>
-								<Group direction="column" spacing={0} align="center">
-									<Text align="right" size="xl" weight="500">
-										{adult.documentId}
+							);
+						})}
+						{bookingData.childs.map((child) => {
+							return (
+								<Group
+									key={child.documentId}
+									direction="row"
+									sx={(theme) => ({
+										width: "100%",
+										justifyContent: "space-around",
+									})}
+								>
+									<Group direction="column" spacing={0}>
+										<Text size="xl" weight="500">
+											{child.name}
+										</Text>
+										<Text size="md">(Adult)</Text>
+									</Group>
+									<Text>
+										({bookingData.from_station_code} -{" "}
+										{bookingData.to_station_code})
 									</Text>
-									<Text size="md">Document No.</Text>
+									<Group direction="column" spacing={0} align="center">
+										<Text align="right" size="xl" weight="500">
+											{child.documentId}
+										</Text>
+										<Text size="md">Document No.</Text>
+									</Group>
 								</Group>
-							</Group>
-						);
-					})}
-					{bookingData.childs.map((child) => {
-						return (
-							<Box key={child.documentId}>
-								<Group direction="column" spacing={0}>
-									<Text size="xl" weight="500">
-										{child.name}
-									</Text>
-									<Text size="md">(Child)</Text>
-								</Group>
-								<Text>{child.documentId}</Text>
-							</Box>
-						);
-					})}
+							);
+						})}
+					</Group>
 				</Group>
 
-				<Group position="center">
+				<Group
+					position="center"
+					sx={(theme) => ({
+						marginTop: "20px",
+					})}
+				>
 					<Button
 						onClick={() => {
 							router.push("/dashboard");

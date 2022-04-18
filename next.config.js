@@ -19,6 +19,9 @@ const nextConfig = {
 			"images.unsplash.com",
 		],
 	},
+	experimental: {
+		outputStandalone: true,
+	},
 };
 
 module.exports = withMDX(nextConfig);

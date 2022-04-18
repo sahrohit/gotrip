@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: sahrohit/gotrip
+    ports:
+      - 80:3000
